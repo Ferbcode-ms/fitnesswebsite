@@ -46,65 +46,7 @@ interface ServiceItem {
   status: "draft" | "published";
 }
 
-const DEFAULT_SERVICES: ServiceItem[] = [
-  {
-    id: "service-1",
-    title: "1-on-1 In-Person Personal Training",
-    service_type: "in_person",
-    badge: "IN-STUDIO",
-    summary: "Private 60-minute in-studio coaching sessions with hands-on form correction, real-time autoregulation, and specialized equipment.",
-    features: [
-      "Private suite access",
-      "Hands-on barbell & kettlebell form cueing",
-      "Mobility & biomechanical movement screen",
-      "Post-session recovery protocol",
-    ],
-    pricing_tier: "Studio Tier",
-    image_url: "/images/service-collage-1.jpg",
-    cta_text: "BOOK STUDIO CONSULTATION",
-    cta_link: "/appointments",
-    order_index: 1,
-    status: "published",
-  },
-  {
-    id: "service-2",
-    title: "Remote 1:1 Online Coaching",
-    service_type: "online",
-    badge: "REMOTE",
-    summary: "Full-service custom workout programming delivered through our dedicated coaching app with weekly video form reviews and 24/7 direct coach chat.",
-    features: [
-      "Customised app programming with progressive overload",
-      "Weekly asynchronous video form analysis",
-      "Nutrition design & flexible macro coaching",
-      "Direct coach messaging & weekly adjustments",
-    ],
-    pricing_tier: "Online Tier",
-    image_url: "/images/service-collage-2.jpg",
-    cta_text: "APPLY FOR ONLINE COACHING",
-    cta_link: "/appointments",
-    order_index: 2,
-    status: "published",
-  },
-  {
-    id: "service-3",
-    title: "Hybrid Coaching Mentorship",
-    service_type: "hybrid",
-    badge: "HYBRID",
-    summary: "The ultimate blend: fortnightly in-person technique check-ins combined with complete weekly remote programming and nutritional oversight.",
-    features: [
-      "2x monthly private studio technique clinics",
-      "Full remote programming on our coaching app",
-      "Custom nutrient timing & hormonal periodization",
-      "Priority schedule booking & event prep",
-    ],
-    pricing_tier: "Hybrid Tier",
-    image_url: "/images/service-collage-3.jpg",
-    cta_text: "EXPLORE HYBRID MENTORSHIP",
-    cta_link: "/appointments",
-    order_index: 3,
-    status: "published",
-  },
-];
+const DEFAULT_SERVICES: ServiceItem[] = [];
 
 export default function AdminServicesManager() {
   const [activeTab, setActiveTab] = useState<"sections" | "comparison" | "cards">("sections");
@@ -214,7 +156,7 @@ export default function AdminServicesManager() {
       summary: "",
       features: ["Custom Workout Programming", "Direct Coach Messaging"],
       pricing_tier: "Consultation Tier",
-      image_url: "/images/service-collage-1.jpg",
+      image_url: null,
       cta_text: "BOOK A CONSULTATION",
       cta_link: "/appointments",
       order_index: items.length + 1,
@@ -380,7 +322,7 @@ export default function AdminServicesManager() {
   };
 
   return (
-    <div className="space-y-6">
+    <div suppressHydrationWarning className="space-y-6">
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>

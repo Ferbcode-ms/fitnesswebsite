@@ -26,7 +26,6 @@ export const metadata: Metadata = {
     description:
       "Customized training split, weekly video form audits, nutritional architecture, and direct coach messaging.",
     url: "/single-service",
-    images: [{ url: "/images/card-strength.jpg", width: 800, height: 800, alt: "1:1 private coaching" }],
   },
 };
 

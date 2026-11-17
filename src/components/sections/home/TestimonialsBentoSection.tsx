@@ -10,47 +10,8 @@ interface TestimonialCardData {
   quote: string;
   author: string;
   clientType: string;
-  avatarSrc: string;
+  avatarSrc?: string | null;
 }
-
-const defaultTestimonials: TestimonialCardData[] = [
-  {
-    theme: "white",
-    headline: "“I FINALLY FEEL STRONG AND IN CONTROL”",
-    quote:
-      "Working 1-on-1 with my coach transformed my relationship with fitness. The progressive strength plans are challenging yet empowering, and I've never been more consistent.",
-    author: "[Client Name Placeholder]",
-    clientType: "Online Coaching Client",
-    avatarSrc: "/images/avatar-1.jpg",
-  },
-  {
-    theme: "blush",
-    headline: "“THIS COACHING CHANGED MORE THAN JUST MY BODY.”",
-    quote:
-      "I used to feel intimidated in the weights section. Now, I lift with proper technique, my energy is through the roof, and I actually look forward to every training session.",
-    author: "[Client Name Placeholder]",
-    clientType: "Personal Training Client",
-    avatarSrc: "/images/avatar-2.jpg",
-  },
-  {
-    theme: "blush",
-    headline: "“THE PROGRESSION IS REAL — AND SO ARE THE RESULTS.”",
-    quote:
-      "Having a structured blueprint and weekly form feedback made all the difference. No more guessing exercises or falling off track after three weeks.",
-    author: "[Client Name Placeholder]",
-    clientType: "1-on-1 Transformation Client",
-    avatarSrc: "/images/avatar-3.jpg",
-  },
-  {
-    theme: "cream",
-    headline: "“THE ONLY PROGRAM I’VE EVER STAYED CONSISTENT WITH.”",
-    quote:
-      "She creates training routines that genuinely fit around a busy professional lifestyle. Sustainable nutrition guidance without restrictive dieting was the game changer.",
-    author: "[Client Name Placeholder]",
-    clientType: "Hybrid Coaching Client",
-    avatarSrc: "/images/avatar-4.jpg",
-  },
-];
 
 interface TestimonialItem {
   id?: string;
@@ -67,27 +28,27 @@ interface TestimonialsBentoSectionProps {
 /**
  * Section 2: Testimonials Bento Grid
  * Background: Deep Burgundy (#4A1C21)
- * Asymmetric 5-card layout with 10px corner radii, star rating markers,
- * quote copy, and circular client avatars.
+ * Asymmetric layout with star rating markers, quote copy, and client initials / avatars.
  */
 export function TestimonialsBentoSection({ testimonials: customTestimonials }: TestimonialsBentoSectionProps = {}) {
+  if (!customTestimonials || customTestimonials.length === 0) {
+    return null;
+  }
+
   const themes: Array<"white" | "blush" | "blush" | "cream"> = ["white", "blush", "blush", "cream"];
-  const displayCards: TestimonialCardData[] =
-    customTestimonials && customTestimonials.length > 0
-      ? customTestimonials.slice(0, 4).map((t, idx) => ({
-          theme: themes[idx % themes.length],
-          headline: `“${t.quote.slice(0, 48).trim().toUpperCase()}${t.quote.length > 48 ? "..." : ""}”`,
-          quote: t.quote,
-          author: t.client_name,
-          clientType: t.client_role,
-          avatarSrc: optimizeCloudinaryUrl(t.avatar_url, { width: 120, height: 120 }) || `/images/avatar-${(idx % 4) + 1}.jpg`,
-        }))
-      : defaultTestimonials;
+  const displayCards: TestimonialCardData[] = customTestimonials.slice(0, 4).map((t, idx) => ({
+    theme: themes[idx % themes.length],
+    headline: `“${t.quote.slice(0, 48).trim().toUpperCase()}${t.quote.length > 48 ? "..." : ""}”`,
+    quote: t.quote,
+    author: t.client_name,
+    clientType: t.client_role,
+    avatarSrc: t.avatar_url ? optimizeCloudinaryUrl(t.avatar_url, { width: 120, height: 120 }) || t.avatar_url : null,
+  }));
 
   return (
     <section className="relative w-full bg-[var(--color-burgundy)] py-20 md:py-24 text-[var(--color-burgundy)]">
       <Container>
-        {/* Top Row: Title Card (Sand) + 2 Testimonial Cards */}
+        {/* Top Row: Title Card (Sand) + Up to 2 Testimonial Cards */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-5">
           {/* Card 1: Title Card */}
           <Card
@@ -114,21 +75,24 @@ export function TestimonialsBentoSection({ testimonials: customTestimonials }: T
             </p>
           </Card>
 
-          {/* Card 2: White Card */}
-          <TestimonialCard card={displayCards[0] || defaultTestimonials[0]} className="md:col-span-3" />
+          {/* Card 2 */}
+          {displayCards[0] && (
+            <TestimonialCard card={displayCards[0]} className={displayCards.length === 1 ? "md:col-span-7" : "md:col-span-3"} />
+          )}
 
-          {/* Card 3: Blush Card */}
-          <TestimonialCard card={displayCards[1] || defaultTestimonials[1]} className="md:col-span-4" />
+          {/* Card 3 */}
+          {displayCards[1] && (
+            <TestimonialCard card={displayCards[1]} className="md:col-span-4" />
+          )}
         </div>
 
-        {/* Bottom Row: 2 Wider Testimonial Cards */}
-        <div className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-5">
-          {/* Card 4: Blush Card */}
-          <TestimonialCard card={displayCards[2] || defaultTestimonials[2]} />
-
-          {/* Card 5: Cream Card */}
-          <TestimonialCard card={displayCards[3] || defaultTestimonials[3]} />
-        </div>
+        {/* Bottom Row: Additional Cards if available */}
+        {displayCards.length > 2 && (
+          <div className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-5">
+            {displayCards[2] && <TestimonialCard card={displayCards[2]} />}
+            {displayCards[3] && <TestimonialCard card={displayCards[3]} />}
+          </div>
+        )}
       </Container>
     </section>
   );
@@ -167,15 +131,21 @@ function TestimonialCard({
 
       {/* Client Avatar & Name */}
       <div className="mt-6 flex items-center gap-3 pt-4 border-t border-[var(--color-burgundy)]/15">
-        <div className="relative h-10 w-10 overflow-hidden rounded-full border border-[var(--color-burgundy)]/20 bg-[var(--color-burgundy)]/10">
-          <Image
-            src={card.avatarSrc}
-            alt=""
-            fill
-            sizes="40px"
-            className="object-cover object-center"
-          />
-        </div>
+        {card.avatarSrc ? (
+          <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full border border-[var(--color-burgundy)]/20 bg-[var(--color-burgundy)]/10">
+            <Image
+              src={card.avatarSrc}
+              alt=""
+              fill
+              sizes="40px"
+              className="object-cover object-center"
+            />
+          </div>
+        ) : (
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--color-burgundy)] text-[var(--color-cream)] font-[family-name:var(--font-mono)] text-[12px] font-bold">
+            {card.author ? card.author.replace(/[^a-zA-Z]/g, "").slice(0, 2).toUpperCase() || "★" : "★"}
+          </div>
+        )}
         <div>
           <p className="font-[family-name:var(--font-body)] text-[14px] font-bold text-[var(--color-burgundy)]">
             {card.author}

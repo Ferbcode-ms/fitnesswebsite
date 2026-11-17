@@ -11,13 +11,13 @@ export default function AdminAboutEditor() {
   // Hero Section
   const [heroHeading, setHeroHeading] = useState("FOUNDED ON SCIENCE, DRIVEN BY SISTERHOOD.");
   const [heroSubtitle, setHeroSubtitle] = useState("We reject toxic diet trends and punishing cardio loops in favour of progressive strength, metabolic health, and lifelong physical autonomy.");
-  const [heroImage, setHeroImage] = useState("/images/about-hero.jpg");
+  const [heroImage, setHeroImage] = useState("");
 
   // Problem Section
   const [problemHeading, setProblemHeading] = useState("THE FITNESS INDUSTRY LIED TO WOMEN.");
   const [problemText, setProblemText] = useState("For decades, women were sold 1,200-calorie starvation diets, endless treadmill hours, and fear-based marketing that equated strength with bulkiness. We are here to change that narrative permanently.");
-  const [problemImage1, setProblemImage1] = useState("/images/service-collage-1.jpg");
-  const [problemImage2, setProblemImage2] = useState("/images/test-coach.jpg");
+  const [problemImage1, setProblemImage1] = useState("");
+  const [problemImage2, setProblemImage2] = useState("");
 
   // Mission & Stats Section
   const [missionBadge, setMissionBadge] = useState("Our Mission & Commitment");
@@ -159,7 +159,7 @@ export default function AdminAboutEditor() {
   };
 
   return (
-    <div className="space-y-6">
+    <div suppressHydrationWarning className="space-y-6">
       {/* Top Header Bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>

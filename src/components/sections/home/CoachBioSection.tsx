@@ -19,14 +19,14 @@ interface CoachBioSectionProps {
  */
 export function CoachBioSection({ coachName: customCoachName, bioTitle, bioImage }: CoachBioSectionProps = {}) {
   const coachName = customCoachName || siteConfig.coachName;
-  const imageSrc = bioImage || "/images/coach-portrait.jpg";
+  const imageSrc = bioImage ? optimizeCloudinaryUrl(bioImage, { width: 800 }) || bioImage : null;
 
   return (
     <section className="relative w-full bg-[var(--color-cream)] py-16 md:py-24 text-[var(--color-burgundy)] border-t border-[var(--color-burgundy)]/10">
       <Container>
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-14 items-center">
-          {/* Left Column: Bio Narrative & Philosophy */}
-          <div className="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left">
+        <div className={imageSrc ? "grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-14 items-center" : "max-w-3xl mx-auto text-center flex flex-col items-center"}>
+          {/* Left / Main Column: Bio Narrative & Philosophy */}
+          <div className={imageSrc ? "lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left" : "flex flex-col items-center text-center"}>
             <EditorialHeading
               as="h2"
               size="h2"
@@ -70,16 +70,18 @@ export function CoachBioSection({ coachName: customCoachName, bioTitle, bioImage
             </div>
           </div>
 
-          {/* Right Column: Editorial Coach Portrait */}
-          <div className="lg:col-span-5 relative aspect-[3/4] w-full max-w-[460px] mx-auto overflow-hidden rounded-[var(--radius-card-md)] bg-[var(--color-burgundy)]/10 shadow-md">
-            <Image
-              src={optimizeCloudinaryUrl(imageSrc, { width: 800 }) || "/images/coach-portrait.jpg"}
-              alt={`${coachName} - Female Fitness Coach`}
-              fill
-              sizes="(max-width: 1024px) 100vw, 460px"
-              className="object-cover object-center"
-            />
-          </div>
+          {/* Optional Right Column: Editorial Coach Portrait */}
+          {imageSrc && (
+            <div className="lg:col-span-5 relative aspect-[3/4] w-full max-w-[460px] mx-auto overflow-hidden rounded-[var(--radius-card-md)] bg-[var(--color-burgundy)]/10 shadow-md">
+              <Image
+                src={imageSrc}
+                alt={`${coachName} - Female Fitness Coach`}
+                fill
+                sizes="(max-width: 1024px) 100vw, 460px"
+                className="object-cover object-center"
+              />
+            </div>
+          )}
         </div>
       </Container>
     </section>

@@ -24,33 +24,8 @@ export const metadata: Metadata = {
     description:
       "Learn our evidence-based female strength philosophy, qualifications, and empowering training methodology.",
     url: "/about",
-    images: [{ url: "/images/coach-portrait.jpg", width: 800, height: 1000, alt: "Coach portrait" }],
   },
 };
-
-const aboutTestimonials = [
-  {
-    id: "1",
-    quote: "AFTER 6 MONTHS OF COACHING, I SQUATTED MY BODYWEIGHT FOR THE FIRST TIME AND HAVE ZERO BACK PAIN.",
-    author: "Anna M.",
-    role: "Online 1-on-1 Coaching Client",
-    avatarUrl: "/images/avatar-1.jpg",
-  },
-  {
-    id: "2",
-    quote: "I FINALLY STOPPED OBSESSING OVER CALORIES AND STARTED CELEBRATING WHAT MY BODY CAN DO IN THE GYM.",
-    author: "Danielle K.",
-    role: "In-Person Personal Training",
-    avatarUrl: "/images/avatar-2.jpg",
-  },
-  {
-    id: "3",
-    quote: "THE ACCOUNTABILITY, WEEKLY VIDEO FEEDBACK, AND FORM REVIEWS GAVE ME TOTAL CONFIDENCE.",
-    author: "Elena R.",
-    role: "Hybrid Athlete Programme",
-    avatarUrl: "/images/avatar-3.jpg",
-  },
-];
 
 export default async function AboutPage() {
   const [cmsTestimonials, sections, settings] = await Promise.all([
@@ -69,9 +44,9 @@ export default async function AboutPage() {
           quote: t.quote,
           author: t.client_name,
           role: t.client_role,
-          avatarUrl: t.avatar_url || "/images/avatar-1.jpg",
+          avatarUrl: t.avatar_url || undefined,
         }))
-      : aboutTestimonials;
+      : [];
 
   return (
     <>
@@ -112,16 +87,18 @@ export default async function AboutPage() {
       />
 
       {/* Testimonials Carousel Section */}
-      <section className="w-full bg-[var(--color-cream)] py-16 md:py-24 border-t border-[var(--color-burgundy)]/15">
-        <Container>
-          <div className="text-center mb-4">
-            <span className="font-[family-name:var(--font-mono)] text-[12px] uppercase tracking-wider text-[var(--color-burgundy)]/75">
-              Client Transformations
-            </span>
-          </div>
-          <TestimonialCarousel slides={displayTestimonials} />
-        </Container>
-      </section>
+      {displayTestimonials.length > 0 && (
+        <section className="w-full bg-[var(--color-cream)] py-16 md:py-24 border-t border-[var(--color-burgundy)]/15">
+          <Container>
+            <div className="text-center mb-4">
+              <span className="font-[family-name:var(--font-mono)] text-[12px] uppercase tracking-wider text-[var(--color-burgundy)]/75">
+                Client Transformations
+              </span>
+            </div>
+            <TestimonialCarousel slides={displayTestimonials} />
+          </Container>
+        </section>
+      )}
 
       <BottomSplitCtaSection />
     </>

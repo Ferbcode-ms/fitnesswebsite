@@ -24,7 +24,6 @@ export const metadata: Metadata = {
     description:
       "Explore our women's strength coaching programmes: Foundations, Strength & Sculpt, and Hybrid Athlete. View membership tiers.",
     url: "/classes",
-    images: [{ url: "/images/card-strength.jpg", width: 800, height: 800, alt: "Strength training programme" }],
   },
 };
 

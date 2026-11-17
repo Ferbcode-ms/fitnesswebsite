@@ -18,7 +18,6 @@ export const metadata: Metadata = {
     description:
       "Request your complimentary 15-minute consultation or reserve an in-person movement screen and personal training assessment.",
     url: "/appointments",
-    images: [{ url: "/images/guide-left.jpg", width: 800, height: 600, alt: "Consultation and session booking" }],
   },
 };
 

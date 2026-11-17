@@ -19,172 +19,46 @@ export function clearCmsCache(prefix?: string) {
   }
 }
 
-// Fallback data matching verified Phase 1-6 content
-const FALLBACK_CLASSES = [
-  {
-    id: "fb-class-1",
-    title: "FOUNDATIONS",
-    subtitle: "8-WEEK BEGINNER INTENSIVE",
-    badge: "PHASE 01",
-    description:
-      "Master compound lifts, establish bulletproof movement biomechanics, and banish gym anxiety in a structured, supportive atmosphere.",
-    specs: ["3 Sessions / Week", "Technique & Biomechanics", "Gym Anxiety Reset", "Video Form Feedback"],
-    image_url: "/images/card-foundations.jpg",
-    cta_text: "APPLY FOR PROGRAMME",
-    cta_link: "/appointments",
-    order_index: 1,
-    status: "published" as const,
-  },
-  {
-    id: "fb-class-2",
-    title: "STRENGTH & SCULPT",
-    subtitle: "HYPERTROPHY & BODY RECOMPOSITION",
-    badge: "MOST POPULAR",
-    description:
-      "Progressive overload engineered for female physiology. Build metabolic muscle, bone density, and athletic definition.",
-    specs: ["4 Sessions / Week", "Hypertrophy & Overload", "Body Recomposition", "Macro Architecture"],
-    image_url: "/images/card-strength.jpg",
-    cta_text: "APPLY FOR PROGRAMME",
-    cta_link: "/appointments",
-    order_index: 2,
-    status: "published" as const,
-  },
-  {
-    id: "fb-class-3",
-    title: "HYBRID ATHLETE",
-    subtitle: "ENDURANCE & CONDITIONING FUSION",
-    badge: "ADVANCED",
-    description:
-      "For women who want strength, stamina, and cardiovascular resilience without sacrificing muscle mass or joint health.",
-    specs: ["4–5 Sessions / Week", "Conditioning & Strength", "Lactate Threshold Work", "Heart Rate Tracking"],
-    image_url: "/images/card-hybrid.jpg",
-    cta_text: "APPLY FOR PROGRAMME",
-    cta_link: "/appointments",
-    order_index: 3,
-    status: "published" as const,
-  },
-];
+export interface ClassItem {
+  id: string;
+  title: string;
+  subtitle: string;
+  badge?: string | null;
+  description: string;
+  specs: string[];
+  image_url?: string | null;
+  cta_text: string;
+  cta_link: string;
+  order_index: number;
+  status: "draft" | "published";
+}
 
-const FALLBACK_SERVICES = [
-  {
-    id: "fb-service-1",
-    title: "1-on-1 In-Person Personal Training",
-    service_type: "in_person" as const,
-    badge: "IN-STUDIO",
-    summary:
-      "Private 60-minute in-studio coaching sessions with hands-on form correction, real-time autoregulation, and specialized equipment.",
-    features: [
-      "Private suite access",
-      "Hands-on barbell & kettlebell form cueing",
-      "Mobility & biomechanical movement screen",
-      "Post-session recovery protocol",
-    ],
-    pricing_tier: "Studio Tier",
-    image_url: "/images/service-collage-1.jpg",
-    cta_text: "BOOK STUDIO CONSULTATION",
-    cta_link: "/appointments",
-    order_index: 1,
-    status: "published" as const,
-  },
-  {
-    id: "fb-service-2",
-    title: "Remote 1:1 Online Coaching",
-    service_type: "online" as const,
-    badge: "REMOTE",
-    summary:
-      "Full-service custom workout programming delivered through our dedicated coaching app with weekly video form reviews and 24/7 direct coach chat.",
-    features: [
-      "Customised app programming with progressive overload",
-      "Weekly asynchronous video form analysis",
-      "Nutrition design & flexible macro coaching",
-      "Direct coach messaging & weekly adjustments",
-    ],
-    pricing_tier: "Online Tier",
-    image_url: "/images/service-collage-2.jpg",
-    cta_text: "APPLY FOR ONLINE COACHING",
-    cta_link: "/appointments",
-    order_index: 2,
-    status: "published" as const,
-  },
-  {
-    id: "fb-service-3",
-    title: "Hybrid Coaching Mentorship",
-    service_type: "hybrid" as const,
-    badge: "HYBRID",
-    summary:
-      "The ultimate blend: fortnightly in-person technique check-ins combined with complete weekly remote programming and nutritional oversight.",
-    features: [
-      "2x monthly private studio technique clinics",
-      "Full remote programming on our coaching app",
-      "Custom nutrient timing & hormonal periodization",
-      "Priority schedule booking & event prep",
-    ],
-    pricing_tier: "Hybrid Tier",
-    image_url: "/images/service-collage-3.jpg",
-    cta_text: "EXPLORE HYBRID MENTORSHIP",
-    cta_link: "/appointments",
-    order_index: 3,
-    status: "published" as const,
-  },
-];
+export interface ServiceItem {
+  id: string;
+  title: string;
+  service_type: "online" | "in_person" | "hybrid";
+  badge?: string | null;
+  summary: string;
+  features: string[];
+  pricing_tier?: string | null;
+  image_url?: string | null;
+  cta_text: string;
+  cta_link: string;
+  order_index: number;
+  status: "draft" | "published";
+}
 
-const FALLBACK_TESTIMONIALS = [
-  {
-    id: "fb-test-1",
-    quote: "I spent years spinning my wheels on cardio machines. Within 12 weeks of structured strength coaching, I hit a bodyweight squat and completely rebuilt my energy.",
-    client_name: "Sarah J.",
-    client_role: "Online Coaching Client",
-    rating: 5,
-    avatar_url: "/images/avatar-1.jpg",
-    page_placement: "all" as const,
-    order_index: 1,
-    status: "published" as const,
-  },
-  {
-    id: "fb-test-2",
-    quote: "The form feedback and biomechanical adjustments were game-changing. I train 4 days a week now completely pain-free and stronger than ever.",
-    client_name: "Rachel K.",
-    client_role: "In-Person Training Client",
-    rating: 5,
-    avatar_url: "/images/avatar-2.jpg",
-    page_placement: "all" as const,
-    order_index: 2,
-    status: "published" as const,
-  },
-  {
-    id: "fb-test-3",
-    quote: "Having a female coach who truly understands hormonal cycles and progressive overload made all the difference in my body composition results.",
-    client_name: "Emma D.",
-    client_role: "Hybrid Athlete Client",
-    rating: 5,
-    avatar_url: "/images/avatar-3.jpg",
-    page_placement: "all" as const,
-    order_index: 3,
-    status: "published" as const,
-  },
-  {
-    id: "fb-test-4",
-    quote: "AFTER 6 MONTHS OF COACHING, I SQUATTED MY BODYWEIGHT FOR THE FIRST TIME AND HAVE ZERO BACK PAIN.",
-    client_name: "Anna M.",
-    client_role: "Online 1-on-1 Coaching Client",
-    rating: 5,
-    avatar_url: "/images/avatar-1.jpg",
-    page_placement: "about" as const,
-    order_index: 4,
-    status: "published" as const,
-  },
-  {
-    id: "fb-test-5",
-    quote: "I FINALLY STOPPED OBSESSING OVER CALORIES AND STARTED CELEBRATING WHAT MY BODY CAN DO IN THE GYM.",
-    client_name: "Danielle K.",
-    client_role: "In-Person Personal Training",
-    rating: 5,
-    avatar_url: "/images/avatar-2.jpg",
-    page_placement: "about" as const,
-    order_index: 5,
-    status: "published" as const,
-  },
-];
+export interface TestimonialItem {
+  id: string;
+  quote: string;
+  client_name: string;
+  client_role: string;
+  rating: number;
+  avatar_url?: string | null;
+  page_placement: "home" | "about" | "classes" | "services" | "all";
+  order_index: number;
+  status: "draft" | "published";
+}
 
 /**
  * Fetch Site Settings (Global)
@@ -261,15 +135,15 @@ export const getSiteSettings = cache(async function getSiteSettings() {
 /**
  * Fetch Published Classes (Public)
  */
-export const getClasses = cache(async function getClasses(onlyPublished = true) {
+export const getClasses = cache(async function getClasses(onlyPublished = true): Promise<ClassItem[]> {
   const cacheKey = `classes_${onlyPublished}`;
   const cached = memoryCache.get(cacheKey);
   if (cached && Date.now() - cached.timestamp < CACHE_TTL_MS) {
-    return cached.data as typeof FALLBACK_CLASSES;
+    return cached.data as ClassItem[];
   }
 
   if (!isSupabaseConfigured()) {
-    return FALLBACK_CLASSES;
+    return [];
   }
 
   try {
@@ -283,9 +157,9 @@ export const getClasses = cache(async function getClasses(onlyPublished = true) 
     }
     const { data, error } = await query;
     if (!error && data && data.length > 0) {
-      const result = data.map((item) => ({
+      const result: ClassItem[] = data.map((item) => ({
         ...item,
-        image_url: optimizeCloudinaryUrl(item.image_url, { width: 800 }) || item.image_url,
+        image_url: optimizeCloudinaryUrl(item.image_url, { width: 800 }) || item.image_url || null,
         specs: Array.isArray(item.specs)
           ? item.specs
           : typeof item.specs === "string"
@@ -300,24 +174,24 @@ export const getClasses = cache(async function getClasses(onlyPublished = true) 
   }
 
   if (cached) {
-    return cached.data as typeof FALLBACK_CLASSES;
+    return cached.data as ClassItem[];
   }
 
-  return FALLBACK_CLASSES;
+  return [];
 });
 
 /**
  * Fetch Published Services (Public)
  */
-export const getServices = cache(async function getServices(onlyPublished = true) {
+export const getServices = cache(async function getServices(onlyPublished = true): Promise<ServiceItem[]> {
   const cacheKey = `services_${onlyPublished}`;
   const cached = memoryCache.get(cacheKey);
   if (cached && Date.now() - cached.timestamp < CACHE_TTL_MS) {
-    return cached.data as typeof FALLBACK_SERVICES;
+    return cached.data as ServiceItem[];
   }
 
   if (!isSupabaseConfigured()) {
-    return FALLBACK_SERVICES;
+    return [];
   }
 
   try {
@@ -331,9 +205,9 @@ export const getServices = cache(async function getServices(onlyPublished = true
     }
     const { data, error } = await query;
     if (!error && data && data.length > 0) {
-      const result = data.map((item) => ({
+      const result: ServiceItem[] = data.map((item) => ({
         ...item,
-        image_url: optimizeCloudinaryUrl(item.image_url, { width: 800 }) || item.image_url,
+        image_url: optimizeCloudinaryUrl(item.image_url, { width: 800 }) || item.image_url || null,
         features: Array.isArray(item.features)
           ? item.features
           : typeof item.features === "string"
@@ -348,26 +222,24 @@ export const getServices = cache(async function getServices(onlyPublished = true
   }
 
   if (cached) {
-    return cached.data as typeof FALLBACK_SERVICES;
+    return cached.data as ServiceItem[];
   }
 
-  return FALLBACK_SERVICES;
+  return [];
 });
 
 /**
  * Fetch Testimonials (Public)
  */
-export const getTestimonials = cache(async function getTestimonials(placement = "all", onlyPublished = true) {
+export const getTestimonials = cache(async function getTestimonials(placement = "all", onlyPublished = true): Promise<TestimonialItem[]> {
   const cacheKey = `testimonials_${placement}_${onlyPublished}`;
   const cached = memoryCache.get(cacheKey);
   if (cached && Date.now() - cached.timestamp < CACHE_TTL_MS) {
-    return cached.data as typeof FALLBACK_TESTIMONIALS;
+    return cached.data as TestimonialItem[];
   }
 
   if (!isSupabaseConfigured()) {
-    return FALLBACK_TESTIMONIALS.filter(
-      (t) => placement === "all" || t.page_placement === "all" || t.page_placement === placement
-    );
+    return [];
   }
 
   try {
@@ -384,24 +256,22 @@ export const getTestimonials = cache(async function getTestimonials(placement = 
     }
     const { data, error } = await query;
     if (!error && data && data.length > 0) {
-      const result = data.map((t) => ({
+      const result: TestimonialItem[] = data.map((t) => ({
         ...t,
-        avatar_url: optimizeCloudinaryUrl(t.avatar_url, { width: 120, height: 120 }) || t.avatar_url,
+        avatar_url: optimizeCloudinaryUrl(t.avatar_url, { width: 120, height: 120 }) || t.avatar_url || null,
       }));
       memoryCache.set(cacheKey, { data: result, timestamp: Date.now() });
       return result;
     }
   } catch {
-    // Graceful fallback to verified reviews
+    // Graceful fallback
   }
 
   if (cached) {
-    return cached.data as typeof FALLBACK_TESTIMONIALS;
+    return cached.data as TestimonialItem[];
   }
 
-  return FALLBACK_TESTIMONIALS.filter(
-    (t) => placement === "all" || t.page_placement === "all" || t.page_placement === placement
-  );
+  return [];
 });
 
 /**
@@ -554,9 +424,9 @@ export async function getMediaAssets(searchTerm?: string, page = 1, pageSize = 2
 export async function getDashboardStats() {
   if (!isSupabaseConfigured()) {
     return {
-      publishedServices: FALLBACK_SERVICES.length,
-      publishedClasses: FALLBACK_CLASSES.length,
-      publishedTestimonials: FALLBACK_TESTIMONIALS.length,
+      publishedServices: 0,
+      publishedClasses: 0,
+      publishedTestimonials: 0,
       newAppointments: 0,
       recentUpdates: [],
     };
@@ -573,17 +443,17 @@ export async function getDashboardStats() {
     ]);
 
     return {
-      publishedServices: servicesRes.count ?? FALLBACK_SERVICES.length,
-      publishedClasses: classesRes.count ?? FALLBACK_CLASSES.length,
-      publishedTestimonials: testimonialsRes.count ?? FALLBACK_TESTIMONIALS.length,
+      publishedServices: servicesRes.count ?? 0,
+      publishedClasses: classesRes.count ?? 0,
+      publishedTestimonials: testimonialsRes.count ?? 0,
       newAppointments: appointmentsRes.count ?? 0,
       recentUpdates: [],
     };
   } catch {
     return {
-      publishedServices: FALLBACK_SERVICES.length,
-      publishedClasses: FALLBACK_CLASSES.length,
-      publishedTestimonials: FALLBACK_TESTIMONIALS.length,
+      publishedServices: 0,
+      publishedClasses: 0,
+      publishedTestimonials: 0,
       newAppointments: 0,
       recentUpdates: [],
     };

@@ -19,19 +19,10 @@ interface MediaAsset {
   created_at: string;
 }
 
-const DEFAULT_MEDIA: MediaAsset[] = [
-  { id: "m-1", public_id: "hero-coaching", secure_url: "/images/hero-coaching.jpg", format: "jpg", width: 1920, height: 1080, alt_text: "Coach leading strength session", created_at: new Date().toISOString() },
-  { id: "m-2", public_id: "coach-portrait", secure_url: "/images/coach-portrait.jpg", format: "jpg", width: 800, height: 1000, alt_text: "Head coach portrait", created_at: new Date().toISOString() },
-  { id: "m-3", public_id: "card-foundations", secure_url: "/images/card-foundations.jpg", format: "jpg", width: 800, height: 800, alt_text: "Foundations barbell setup", created_at: new Date().toISOString() },
-  { id: "m-4", public_id: "card-strength", secure_url: "/images/card-strength.jpg", format: "jpg", width: 800, height: 800, alt_text: "Strength and sculpt training", created_at: new Date().toISOString() },
-  { id: "m-5", public_id: "card-hybrid", secure_url: "/images/card-hybrid.jpg", format: "jpg", width: 800, height: 800, alt_text: "Hybrid conditioning", created_at: new Date().toISOString() },
-  { id: "m-6", public_id: "service-collage-1", secure_url: "/images/service-collage-1.jpg", format: "jpg", width: 800, height: 600, alt_text: "In-studio training", created_at: new Date().toISOString() },
-  { id: "m-7", public_id: "service-collage-2", secure_url: "/images/service-collage-2.jpg", format: "jpg", width: 800, height: 600, alt_text: "Online app tracking", created_at: new Date().toISOString() },
-  { id: "m-8", public_id: "service-collage-3", secure_url: "/images/service-collage-3.jpg", format: "jpg", width: 800, height: 600, alt_text: "Nutrition and coaching checkin", created_at: new Date().toISOString() },
-];
+const DEFAULT_MEDIA: MediaAsset[] = [];
 
 export default function AdminMediaLibrary() {
-  const [assets, setAssets] = useState<MediaAsset[]>(DEFAULT_MEDIA);
+  const [assets, setAssets] = useState<MediaAsset[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [newUploadedUrl, setNewUploadedUrl] = useState("");
   const [actionMsg, setActionMsg] = useState<{ type: "success" | "error"; text: string } | null>(null);

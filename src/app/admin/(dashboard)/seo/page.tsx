@@ -22,7 +22,7 @@ const DEFAULT_PAGES: SeoPageItem[] = [
     meta_title: "Women's Fitness Coaching | Online & In-Person Personal Training",
     meta_description: "Personalised women's fitness coaching offering evidence-based online coaching and in-person personal training to build strength, fitness, and confidence.",
     canonical_url: "/",
-    og_image_url: "/images/hero-coaching.jpg",
+    og_image_url: "",
   },
   {
     slug: "about",
@@ -30,7 +30,7 @@ const DEFAULT_PAGES: SeoPageItem[] = [
     meta_title: "About Our Coach & Philosophy | Women's Fitness Coaching",
     meta_description: "Meet our head coach and founder. Learn our evidence-based female strength philosophy, qualifications, and empowering training methodology.",
     canonical_url: "/about",
-    og_image_url: "/images/coach-portrait.jpg",
+    og_image_url: "",
   },
   {
     slug: "classes",
@@ -38,7 +38,7 @@ const DEFAULT_PAGES: SeoPageItem[] = [
     meta_title: "Fitness Programmes & Memberships | Women's Coaching",
     meta_description: "Explore our women's strength coaching programmes: Foundations, Strength & Sculpt, and Hybrid Athlete. View membership pricing tiers and FAQs.",
     canonical_url: "/classes",
-    og_image_url: "/images/card-strength.jpg",
+    og_image_url: "",
   },
   {
     slug: "services",
@@ -46,7 +46,7 @@ const DEFAULT_PAGES: SeoPageItem[] = [
     meta_title: "Coaching Services & Comparison | Women's Fitness",
     meta_description: "Comprehensive female fitness services: 1-on-1 in-person personal training, online coaching, custom workout programming, and nutrition design.",
     canonical_url: "/services",
-    og_image_url: "/images/service-collage-1.jpg",
+    og_image_url: "",
   },
   {
     slug: "single-service",
@@ -54,7 +54,7 @@ const DEFAULT_PAGES: SeoPageItem[] = [
     meta_title: "1:1 Private Coaching Experience | Women's Fitness",
     meta_description: "Apply for the comprehensive 1:1 private coaching experience. Customized training split, weekly video form audits, nutritional architecture, and direct messaging.",
     canonical_url: "/single-service",
-    og_image_url: "/images/card-strength.jpg",
+    og_image_url: "",
   },
   {
     slug: "contact",
@@ -62,7 +62,7 @@ const DEFAULT_PAGES: SeoPageItem[] = [
     meta_title: "Contact & Studio Inquiries | Women's Fitness Coaching",
     meta_description: "Get in touch with our coaching team. Inquire about 1-on-1 personal training, online coaching, or studio availability.",
     canonical_url: "/contact",
-    og_image_url: "/images/test-coach.jpg",
+    og_image_url: "",
   },
   {
     slug: "appointments",
@@ -70,7 +70,7 @@ const DEFAULT_PAGES: SeoPageItem[] = [
     meta_title: "Schedule A Consultation or Session | Women's Fitness",
     meta_description: "Request your complimentary 15-minute discovery consultation or reserve an in-person movement screen and personal training assessment.",
     canonical_url: "/appointments",
-    og_image_url: "/images/guide-left.jpg",
+    og_image_url: "",
   },
 ];
 

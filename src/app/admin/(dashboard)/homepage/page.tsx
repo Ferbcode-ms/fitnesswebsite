@@ -8,9 +8,9 @@ import { Save, CheckCircle, AlertCircle, Eye } from "lucide-react";
 import Link from "next/link";
 
 export default function AdminHomepageEditor() {
-  const [heroHeading, setHeroHeading] = useState("TURN UP the HEAT.");
-  const [heroSubtitle, setHeroSubtitle] = useState("Sculpt Your Core. Own Your Confidence.");
-  const [heroImage, setHeroImage] = useState("/images/hero-bg.jpg");
+  const [heroHeading, setHeroHeading] = useState("WOMEN'S STRENGTH COACHING");
+  const [heroSubtitle, setHeroSubtitle] = useState("Personalised Training Engineered For Your Physiology.");
+  const [heroImage, setHeroImage] = useState("");
   const [heroCtaText, setHeroCtaText] = useState("Start Today");
   const [heroCtaLink, setHeroCtaLink] = useState("/appointments");
 
@@ -21,7 +21,7 @@ export default function AdminHomepageEditor() {
   const [marqueeText, setMarqueeText] = useState("BUILD STRENGTH / REGAIN ENERGY / ZERO BULLSHIT");
 
   const [coachBioTitle, setCoachBioTitle] = useState("MEET YOUR COACH & PHILOSOPHY");
-  const [coachBioImage, setCoachBioImage] = useState("/images/coach-portrait.jpg");
+  const [coachBioImage, setCoachBioImage] = useState("");
 
   const [bottomCtaTitle, setBottomCtaTitle] = useState("READY TO BUILD REAL CONFIDENCE?");
   const [bottomCtaText, setBottomCtaText] = useState("START TODAY");
@@ -107,7 +107,7 @@ export default function AdminHomepageEditor() {
   };
 
   return (
-    <div className="space-y-6">
+    <div suppressHydrationWarning className="space-y-6">
       {/* Top Header Bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>

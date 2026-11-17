@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 import { EditorialHeading } from "@/components/ui/EditorialHeading";
 import { FaqAccordion, FaqItem } from "@/components/ui/FaqAccordion";
+import { optimizeCloudinaryUrl } from "@/lib/utils";
 
 const faqItems: FaqItem[] = [
   {
@@ -60,16 +61,17 @@ export function ClassesFaqSection({
   badge = "Got Questions?",
   heading = "QUESTIONS? answers.",
   subtext = "Everything you need to know about our women's strength programmes, membership options, and coaching standards.",
-  imageSrc = "/images/callout-equipment.jpg",
+  imageSrc: customImageSrc,
   faqs = faqItems,
 }: ClassesFaqSectionProps = {}) {
+  const imageSrc = customImageSrc ? optimizeCloudinaryUrl(customImageSrc, { width: 800 }) || customImageSrc : null;
   const displayFaqs = faqs && faqs.length > 0 ? faqs : faqItems;
 
   return (
     <section className="relative w-full bg-white text-[var(--color-burgundy)] py-16 md:py-24 border-t border-[var(--color-burgundy)]/15">
       <Container>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-          {/* Left Column: Heading & Side Photo */}
+          {/* Left Column: Heading & Optional Side Photo */}
           <div className="lg:col-span-5 space-y-6">
             <span className="font-[family-name:var(--font-mono)] text-[12px] md:text-[13px] uppercase tracking-wider text-[var(--color-burgundy)]/75">
               {badge}
@@ -85,15 +87,17 @@ export function ClassesFaqSection({
               {subtext}
             </p>
 
-            <div className="relative h-[280px] sm:h-[340px] w-full rounded-[10px] overflow-hidden border border-[var(--color-burgundy)]/20 shadow-sm mt-6">
-              <Image
-                src={imageSrc || "/images/callout-equipment.jpg"}
-                alt="Strength coaching equipment and kettlebells"
-                fill
-                sizes="(max-width: 1024px) 100vw, 40vw"
-                className="object-cover"
-              />
-            </div>
+            {imageSrc && (
+              <div className="relative h-[280px] sm:h-[340px] w-full rounded-[10px] overflow-hidden border border-[var(--color-burgundy)]/20 shadow-sm mt-6">
+                <Image
+                  src={imageSrc}
+                  alt="Coaching details"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 40vw"
+                  className="object-cover"
+                />
+              </div>
+            )}
           </div>
 
           {/* Right Column: FAQ Accordion */}

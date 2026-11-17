@@ -41,29 +41,32 @@ function formatHeadline(text: string) {
 }
 
 export function HeroSection({
-  headline = "TURN UP the HEAT.",
-  subcaption = "Sculpt Your Core. Own Your Confidence.",
+  headline = "WOMEN'S STRENGTH COACHING",
+  subcaption = "Personalised Training Engineered For Your Physiology.",
   ctaText = "Start Today",
   ctaHref = "/appointments",
-  imageSrc = "/images/hero-bg.jpg",
+  imageSrc,
 }: HeroSectionProps = {}) {
   const isLongHeadline = headline.length > 22;
 
   return (
     <section className="relative w-full h-screen min-h-[100dvh] overflow-hidden bg-[var(--color-burgundy)] text-[var(--color-blush)] flex flex-col justify-between">
-      {/* Background Media with Soft Tonal Overlay */}
-      <div className="absolute inset-0 z-0">
-        <Image
-          src={optimizeCloudinaryUrl(imageSrc, { width: 1600 }) || "/images/hero-bg.jpg"}
-          alt="Women's fitness coach training in private studio"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-center contrast-[1.02]"
-        />
-        {/* Soft atmospheric gradient preserving natural photo clarity without muddying */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-burgundy)]/45 via-transparent to-black/15 pointer-events-none" />
-      </div>
+      {/* Background Media or Editorial Gradient */}
+      {imageSrc ? (
+        <div className="absolute inset-0 z-0">
+          <Image
+            src={optimizeCloudinaryUrl(imageSrc, { width: 1600 }) || imageSrc}
+            alt="Hero background"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-center contrast-[1.02]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-burgundy)]/55 via-transparent to-black/20 pointer-events-none" />
+        </div>
+      ) : (
+        <div className="absolute inset-0 z-0 bg-gradient-to-b from-[var(--color-burgundy)] via-[#381216] to-[var(--color-burgundy)] opacity-95" />
+      )}
 
       {/* Top spacer to ensure subject breathing room below header */}
       <div className="relative z-10 flex-1 pt-[var(--header-height-desktop)] pointer-events-none" />
@@ -72,8 +75,8 @@ export function HeroSection({
       <div className="relative z-10 w-full flex flex-col justify-end pb-6 md:pb-0">
         <Container className="w-full">
           {/* Middle Row: Left Subcaption & Right Pill CTA */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-8 pb-4 md:pb-6">
-            <div className="max-w-[360px] md:max-w-[420px]">
+          <div className="flex flex-row md:items-end justify-between gap-4 md:gap-8 pb-4 md:pb-6">
+            <div className="max-w-[175px] md:max-w-[420px]">
               <p className="font-[family-name:var(--font-body)] text-[15px] sm:text-[17px] md:text-[20px] font-normal leading-[1.3] uppercase tracking-[-0.01em] text-[var(--color-cream)]">
                 {subcaption}
               </p>

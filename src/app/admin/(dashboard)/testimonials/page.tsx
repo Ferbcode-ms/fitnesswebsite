@@ -20,41 +20,7 @@ interface TestimonialItem {
   status: "draft" | "published";
 }
 
-const DEFAULT_TESTIMONIALS: TestimonialItem[] = [
-  {
-    id: "test-1",
-    quote: "I spent years spinning my wheels on cardio machines. Within 12 weeks of structured strength coaching, I hit a bodyweight squat and completely rebuilt my energy.",
-    client_name: "Sarah J.",
-    client_role: "Online Coaching Client",
-    rating: 5,
-    avatar_url: "/images/avatar-1.jpg",
-    page_placement: "all",
-    order_index: 1,
-    status: "published",
-  },
-  {
-    id: "test-2",
-    quote: "The form feedback and biomechanical adjustments were game-changing. I train 4 days a week now completely pain-free and stronger than ever.",
-    client_name: "Rachel K.",
-    client_role: "In-Person Training Client",
-    rating: 5,
-    avatar_url: "/images/avatar-2.jpg",
-    page_placement: "all",
-    order_index: 2,
-    status: "published",
-  },
-  {
-    id: "test-3",
-    quote: "Having a female coach who truly understands hormonal cycles and progressive overload made all the difference in my body composition results.",
-    client_name: "Emma D.",
-    client_role: "Hybrid Athlete Client",
-    rating: 5,
-    avatar_url: "/images/avatar-3.jpg",
-    page_placement: "all",
-    order_index: 3,
-    status: "published",
-  },
-];
+const DEFAULT_TESTIMONIALS: TestimonialItem[] = [];
 
 export default function AdminTestimonialsManager() {
   const [items, setItems] = useState<TestimonialItem[]>(DEFAULT_TESTIMONIALS);
@@ -70,7 +36,7 @@ export default function AdminTestimonialsManager() {
       client_name: "",
       client_role: "Online Coaching Client",
       rating: 5,
-      avatar_url: "/images/avatar-1.jpg",
+      avatar_url: "",
       page_placement: "all",
       order_index: items.length + 1,
       status: "published",
@@ -134,7 +100,7 @@ export default function AdminTestimonialsManager() {
   };
 
   return (
-    <div className="space-y-6">
+    <div suppressHydrationWarning className="space-y-6">
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>

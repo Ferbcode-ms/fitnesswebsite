@@ -35,10 +35,12 @@ export function SingleServiceHeroSection({
   cta1Link = "/appointments",
   cta2Text = "View Coaching Containers",
   cta2Link = "#pricing",
-  image1Src = "/images/card-strength.jpg",
-  image2Src = "/images/service-collage-1.jpg",
-  image3Src = "/images/test-coach.jpg",
+  image1Src,
+  image2Src,
+  image3Src,
 }: SingleServiceHeroSectionProps = {}) {
+  const hasImages = Boolean(image1Src || image2Src || image3Src);
+
   return (
     <section className="relative w-full overflow-hidden bg-[var(--color-burgundy)] text-[var(--color-blush)] py-16 md:py-24 border-b border-[var(--color-blush)]/15">
       <div className="max-w-[1500px] mx-auto px-6 sm:px-12 lg:px-16">
@@ -80,36 +82,44 @@ export function SingleServiceHeroSection({
         </div>
 
         {/* Media Collage Strip */}
-        <div className="mt-14 grid grid-cols-1 sm:grid-cols-3 gap-6">
-          <div className="relative h-[260px] sm:h-[320px] rounded-[10px] overflow-hidden border border-[var(--color-blush)]/20 shadow-md">
-            <Image
-              src={image1Src || "/images/card-strength.jpg"}
-              alt="Client strength lifting with barbell"
-              fill
-              priority
-              sizes="(max-width: 640px) 100vw, 33vw"
-              className="object-cover"
-            />
+        {hasImages && (
+          <div className="mt-14 grid grid-cols-1 sm:grid-cols-3 gap-6">
+            {image1Src && (
+              <div className="relative h-[260px] sm:h-[320px] rounded-[10px] overflow-hidden border border-[var(--color-blush)]/20 shadow-md">
+                <Image
+                  src={image1Src}
+                  alt="Client strength lifting with barbell"
+                  fill
+                  priority
+                  sizes="(max-width: 640px) 100vw, 33vw"
+                  className="object-cover"
+                />
+              </div>
+            )}
+            {image2Src && (
+              <div className="relative h-[260px] sm:h-[320px] rounded-[10px] overflow-hidden border border-[var(--color-blush)]/20 shadow-md sm:-translate-y-4">
+                <Image
+                  src={image2Src}
+                  alt="Female fitness coach observing form"
+                  fill
+                  sizes="(max-width: 640px) 100vw, 33vw"
+                  className="object-cover"
+                />
+              </div>
+            )}
+            {image3Src && (
+              <div className="relative h-[260px] sm:h-[320px] rounded-[10px] overflow-hidden border border-[var(--color-blush)]/20 shadow-md">
+                <Image
+                  src={image3Src}
+                  alt="Personal training dumbbell movement check"
+                  fill
+                  sizes="(max-width: 640px) 100vw, 33vw"
+                  className="object-cover"
+                />
+              </div>
+            )}
           </div>
-          <div className="relative h-[260px] sm:h-[320px] rounded-[10px] overflow-hidden border border-[var(--color-blush)]/20 shadow-md sm:-translate-y-4">
-            <Image
-              src={image2Src || "/images/service-collage-1.jpg"}
-              alt="Female fitness coach observing form"
-              fill
-              sizes="(max-width: 640px) 100vw, 33vw"
-              className="object-cover"
-            />
-          </div>
-          <div className="relative h-[260px] sm:h-[320px] rounded-[10px] overflow-hidden border border-[var(--color-blush)]/20 shadow-md">
-            <Image
-              src={image3Src || "/images/test-coach.jpg"}
-              alt="Personal training dumbbell movement check"
-              fill
-              sizes="(max-width: 640px) 100vw, 33vw"
-              className="object-cover"
-            />
-          </div>
-        </div>
+        )}
       </div>
     </section>
   );

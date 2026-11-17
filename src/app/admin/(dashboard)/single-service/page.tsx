@@ -148,9 +148,9 @@ export default function AdminSingleServiceManager() {
   const [heroCta1Link, setHeroCta1Link] = useState("/appointments");
   const [heroCta2Text, setHeroCta2Text] = useState("View Coaching Containers");
   const [heroCta2Link, setHeroCta2Link] = useState("#pricing");
-  const [image1Src, setImage1Src] = useState("/images/card-strength.jpg");
-  const [image2Src, setImage2Src] = useState("/images/service-collage-1.jpg");
-  const [image3Src, setImage3Src] = useState("/images/test-coach.jpg");
+  const [image1Src, setImage1Src] = useState("");
+  const [image2Src, setImage2Src] = useState("");
+  const [image3Src, setImage3Src] = useState("");
 
   // 2. Who is this for
   const [whoBadge, setWhoBadge] = useState("Mutual Commitment");
@@ -400,7 +400,7 @@ export default function AdminSingleServiceManager() {
   };
 
   return (
-    <div className="space-y-6">
+    <div suppressHydrationWarning className="space-y-6">
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>

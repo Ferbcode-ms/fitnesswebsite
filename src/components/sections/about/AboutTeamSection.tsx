@@ -9,7 +9,7 @@ interface TeamMember {
   role: string;
   bio: string;
   specialties: string[];
-  imageSrc: string;
+  imageSrc?: string | null;
 }
 
 interface AboutTeamSectionProps {
@@ -28,7 +28,7 @@ export function AboutTeamSection({
   imageSrc,
 }: AboutTeamSectionProps = {}) {
   const coachName = customCoachName || siteConfig.coachName;
-  const portrait = imageSrc || "/images/coach-portrait.jpg";
+  const portrait = imageSrc ? optimizeCloudinaryUrl(imageSrc, { width: 800 }) || imageSrc : null;
 
   const team: TeamMember[] = [
     {
@@ -36,26 +36,12 @@ export function AboutTeamSection({
       role: heading || "Head Coach & Founder",
       bio:
         text ||
-        "CSCS-certified trainer with 8+ years specializing in female biomechanics, progressive strength, and sustainable body recomposition.",
+        "CSCS-certified trainer specializing in female biomechanics, progressive strength, and sustainable body recomposition.",
       specialties:
         qualifications && qualifications.length > 0
           ? qualifications
           : ["Barbell & Dumbbell Mechanics", "Recomposition", "Habit Systems"],
       imageSrc: portrait,
-    },
-    {
-      name: "Jess Martin",
-      role: "Strength & Conditioning Specialist",
-      bio: "Former collegiate athlete focused on power development, athletic conditioning, and teaching women how to lift with zero joint pain.",
-      specialties: ["Athletic Performance", "Joint Mobility", "Hypertrophy"],
-      imageSrc: "/images/team-1.jpg",
-    },
-    {
-      name: "Maya Lin",
-      role: "Pre & Postnatal Coach",
-      bio: "Specializing in pelvic floor health, core rehabilitation, and helping new and expecting mothers maintain safe, empowering physical strength.",
-      specialties: ["Postpartum Core Recovery", "Pelvic Floor Health", "Functional Movement"],
-      imageSrc: "/images/team-2.jpg",
     },
   ];
 
@@ -64,45 +50,47 @@ export function AboutTeamSection({
       <Container>
         <div className="mx-auto max-w-2xl text-center">
           <span className="font-[family-name:var(--font-mono)] text-[12px] md:text-[13px] uppercase tracking-wider text-[var(--color-burgundy)]/75">
-            Coaching Excellence
+            Coaching Leadership
           </span>
           <EditorialHeading
             as="h2"
             size="h2"
             className="mt-3 text-[var(--color-burgundy)] leading-[1.05]"
           >
-            MEET THE <em>coaches</em>
+            MEET THE <em>coach</em>
           </EditorialHeading>
           <p className="mt-4 text-[15px] md:text-[17px] leading-relaxed text-[var(--color-burgundy)]/80">
-            Backed by accredited certifications, clinical exercise science, and hundreds of client success stories.
+            Backed by accredited certifications, exercise science, and real client results.
           </p>
         </div>
 
-        <div className="mt-14 grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="mt-14 max-w-xl mx-auto">
           {team.map((member, i) => (
             <div
               key={i}
               className="rounded-[10px] bg-white border border-[var(--color-burgundy)]/20 overflow-hidden shadow-sm flex flex-col justify-between"
             >
-              <div className="relative h-[320px] w-full bg-[var(--color-burgundy)]/10">
-                <Image
-                  src={optimizeCloudinaryUrl(member.imageSrc, { width: 800 }) || member.imageSrc}
-                  alt={member.name}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                  className="object-cover object-top"
-                />
-              </div>
+              {member.imageSrc && (
+                <div className="relative h-[360px] w-full bg-[var(--color-burgundy)]/10">
+                  <Image
+                    src={member.imageSrc}
+                    alt={member.name}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 600px"
+                    className="object-cover object-top"
+                  />
+                </div>
+              )}
 
-              <div className="p-6 flex flex-col flex-grow justify-between">
+              <div className="p-8 flex flex-col flex-grow justify-between">
                 <div>
-                  <h3 className="font-[family-name:var(--font-display)] text-[22px] uppercase tracking-[var(--tracking-display)] text-[var(--color-burgundy)]">
+                  <h3 className="font-[family-name:var(--font-display)] text-[24px] uppercase tracking-[var(--tracking-display)] text-[var(--color-burgundy)]">
                     {member.name}
                   </h3>
-                  <p className="font-[family-name:var(--font-mono)] text-[12px] uppercase tracking-wider text-[var(--color-burgundy)]/70 font-semibold mt-1">
+                  <p className="font-[family-name:var(--font-mono)] text-[13px] uppercase tracking-wider text-[var(--color-burgundy)]/70 font-semibold mt-1">
                     {member.role}
                   </p>
-                  <p className="mt-3 text-[14px] leading-relaxed text-[var(--color-burgundy)]/85">
+                  <p className="mt-4 text-[15px] leading-relaxed text-[var(--color-burgundy)]/85">
                     {member.bio}
                   </p>
                 </div>

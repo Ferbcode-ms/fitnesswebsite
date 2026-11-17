@@ -54,63 +54,6 @@ export function ServicesGridSection({
   subtext = "Every service is backed by exercise physiology and personalized attention to help you achieve sustainable, lifelong results.",
   services: customServices,
 }: ServicesGridSectionProps = {}) {
-  const defaultServices: ServiceItem[] = [
-    {
-      id: "in-person-pt",
-      tag: "Studio Coaching",
-      title: "1-ON-1 IN-PERSON TRAINING",
-      subtitle: "Hands-on technique refinement & real-time cueing in our private suite.",
-      description:
-        "Designed for women who want immediate tactile feedback, barbell mastery, and maximum accountability inside an empowering, private studio setting.",
-      highlights: [
-        "Comprehensive 60-minute movement & joint mobility assessment",
-        "Hands-on barbell, dumbbell, and kettlebell form coaching",
-        "Targeted core & pelvic floor integration",
-        "Custom warm-up and post-session recovery routines",
-      ],
-      primaryCtaText: "Book In-Person Session",
-      primaryCtaHref: "/appointments",
-      learnMoreHref: "/single-service",
-      badge: "Limited Spots",
-    },
-    {
-      id: "online-coaching",
-      tag: "Remote Athlete",
-      title: "ONLINE 1-ON-1 COACHING",
-      subtitle: "Global remote programming with weekly video check-ins and direct messaging.",
-      description:
-        "Our flagship remote coaching container. Wherever you train—home gym, commercial gym, or traveling—your coach designs and refines your training split weekly.",
-      highlights: [
-        "Interactive smartphone app delivery with video exercise tutorials",
-        "Weekly Loom video form analyses and biofeedback check-ins",
-        "Direct coach messaging via private WhatsApp channel",
-        "Flexible macro & nutritional guidance adjusted to your rate of progress",
-      ],
-      primaryCtaText: "Apply For Online Coaching",
-      primaryCtaHref: "/single-service",
-      learnMoreHref: "/single-service",
-      badge: "Flagship",
-    },
-    {
-      id: "hybrid-coaching",
-      tag: "Hybrid Mentorship",
-      title: "HYBRID COACHING MENTORSHIP",
-      subtitle: "Fortnightly in-person clinics combined with weekly remote app programming.",
-      description:
-        "The ultimate synergy of tactile hands-on form checks and complete lifestyle autonomy. Calibrate technique in studio, then execute your workouts wherever life takes you.",
-      highlights: [
-        "2x monthly private studio technique and lifting clinics",
-        "Full weekly app programming tailored for your schedule",
-        "Custom nutrient timing, macro targets & recovery protocols",
-        "Priority calendar booking and continuous direct coach access",
-      ],
-      primaryCtaText: "Explore Hybrid Mentorship",
-      primaryCtaHref: "/appointments",
-      learnMoreHref: "/single-service",
-      badge: "Best Value",
-    },
-  ];
-
   const displayServices: ServiceItem[] =
     customServices && customServices.length > 0
       ? customServices.map((cs) => ({
@@ -130,7 +73,11 @@ export function ServicesGridSection({
           learnMoreHref: "/single-service",
           badge: cs.badge || undefined,
         }))
-      : defaultServices;
+      : [];
+
+  if (displayServices.length === 0) {
+    return null;
+  }
 
   return (
     <section className="relative w-full bg-[var(--color-cream)] text-[var(--color-burgundy)] py-16 md:py-24">

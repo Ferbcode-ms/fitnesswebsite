@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { EditorialHeading } from "@/components/ui/EditorialHeading";
 import { ContactForm } from "@/components/forms/ContactForm";
 import { siteConfig } from "@/config/site";
@@ -99,17 +98,6 @@ export function ContactSection({ settings }: ContactSectionProps = {}) {
                 </div>
               </div>
             </div>
-          </div>
-
-          {/* Coach Photo in Background / Vignette */}
-          <div className="relative mt-8 h-[240px] sm:h-[300px] w-full rounded-[10px] overflow-hidden border border-[var(--color-blush)]/20 shadow">
-            <Image
-              src="/images/test-coach.jpg"
-              alt="Coach in studio"
-              fill
-              sizes="(max-width: 1024px) 100vw, 42vw"
-              className="object-cover object-top"
-            />
           </div>
         </div>
 

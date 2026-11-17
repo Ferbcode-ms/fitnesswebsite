@@ -52,47 +52,7 @@ interface AdminFaqItem {
   answer: string;
 }
 
-const DEFAULT_CLASSES: ClassItem[] = [
-  {
-    id: "class-1",
-    title: "FOUNDATIONS",
-    subtitle: "8-WEEK BEGINNER INTENSIVE",
-    badge: "PHASE 01",
-    description: "Master compound lifts, establish bulletproof movement biomechanics, and banish gym anxiety in a structured, supportive atmosphere.",
-    specs: ["3 Sessions / Week", "Technique & Biomechanics", "Gym Anxiety Reset", "Video Form Feedback"],
-    image_url: "/images/card-foundations.jpg",
-    cta_text: "APPLY FOR PROGRAMME",
-    cta_link: "/appointments",
-    order_index: 1,
-    status: "published",
-  },
-  {
-    id: "class-2",
-    title: "STRENGTH & SCULPT",
-    subtitle: "HYPERTROPHY & BODY RECOMPOSITION",
-    badge: "MOST POPULAR",
-    description: "Progressive overload engineered for female physiology. Build metabolic muscle, bone density, and athletic definition.",
-    specs: ["4 Sessions / Week", "Hypertrophy & Overload", "Body Recomposition", "Macro Architecture"],
-    image_url: "/images/card-strength.jpg",
-    cta_text: "APPLY FOR PROGRAMME",
-    cta_link: "/appointments",
-    order_index: 2,
-    status: "published",
-  },
-  {
-    id: "class-3",
-    title: "HYBRID ATHLETE",
-    subtitle: "ENDURANCE & CONDITIONING FUSION",
-    badge: "ADVANCED",
-    description: "For women who want strength, stamina, and cardiovascular resilience without sacrificing muscle mass or joint health.",
-    specs: ["4–5 Sessions / Week", "Conditioning & Strength", "Lactate Threshold Work", "Heart Rate Tracking"],
-    image_url: "/images/card-hybrid.jpg",
-    cta_text: "APPLY FOR PROGRAMME",
-    cta_link: "/appointments",
-    order_index: 3,
-    status: "published",
-  },
-];
+const DEFAULT_CLASSES: ClassItem[] = [];
 
 const DEFAULT_MEMBERSHIP_TIERS: AdminMembershipTier[] = [
   {
@@ -190,7 +150,7 @@ export default function AdminClassesManager() {
   const [heroBadge, setHeroBadge] = useState("Curated Training Disciplines");
   const [heroCtaText, setHeroCtaText] = useState("Book Your Trial Session");
   const [heroCtaLink, setHeroCtaLink] = useState("/appointments");
-  const [heroImage, setHeroImage] = useState("/images/card-strength.jpg");
+  const [heroImage, setHeroImage] = useState("");
 
   // Marquee
   const [marqueeText, setMarqueeText] = useState("FIND YOUR FIRE / CHOOSE YOUR PROGRAMME");
@@ -205,14 +165,14 @@ export default function AdminClassesManager() {
   const [faqBadge, setFaqBadge] = useState("Got Questions?");
   const [faqHeading, setFaqHeading] = useState("QUESTIONS? answers.");
   const [faqSubtext, setFaqSubtext] = useState("Everything you need to know about our women's strength programmes, membership options, and coaching standards.");
-  const [faqImage, setFaqImage] = useState("/images/callout-equipment.jpg");
+  const [faqImage, setFaqImage] = useState("");
   const [faqs, setFaqs] = useState<AdminFaqItem[]>(DEFAULT_FAQS);
 
   // Bottom CTA
   const [bottomCtaTitle, setBottomCtaTitle] = useState("READY TO BUILD REAL CONFIDENCE?");
   const [bottomCtaText, setBottomCtaText] = useState("START TODAY");
   const [bottomCtaLink, setBottomCtaLink] = useState("/appointments");
-  const [bottomCtaImage, setBottomCtaImage] = useState("/images/split-cta-bg.jpg");
+  const [bottomCtaImage, setBottomCtaImage] = useState("");
 
   const [savingSections, setSavingSections] = useState(false);
   const [statusMsg, setStatusMsg] = useState<{ type: "success" | "error"; text: string } | null>(null);
@@ -363,7 +323,7 @@ export default function AdminClassesManager() {
       badge: "NEW",
       description: "",
       specs: ["3 Sessions / Week", "Custom Programming"],
-      image_url: "/images/card-strength.jpg",
+      image_url: "",
       cta_text: "APPLY FOR PROGRAMME",
       cta_link: "/appointments",
       order_index: items.length + 1,
@@ -497,7 +457,7 @@ export default function AdminClassesManager() {
   };
 
   return (
-    <div className="space-y-6">
+    <div suppressHydrationWarning className="space-y-6">
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>

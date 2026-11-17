@@ -30,22 +30,28 @@ export function ClassesHeroSection({
   subtitle = "Low-impact strength. High metabolic burn. Science-backed progressive overload structured for women.",
   ctaText = "Book Your Trial Session",
   ctaHref = "/appointments",
-  imageSrc = "/images/card-strength.jpg",
+  imageSrc: customImageSrc,
 }: ClassesHeroSectionProps = {}) {
+  const imageSrc = customImageSrc ? optimizeCloudinaryUrl(customImageSrc, { width: 1400 }) || customImageSrc : null;
+
   return (
-    <section className="relative w-full overflow-hidden bg-[var(--color-burgundy)] text-[var(--color-blush)] min-h-[640px] lg:min-h-[760px] flex flex-col justify-end">
-      {/* Background Image with Dark Vignette */}
-      <div className="absolute inset-0 z-0">
-        <Image
-          src={optimizeCloudinaryUrl(imageSrc, { width: 1400 }) || "/images/card-strength.jpg"}
-          alt="Women training in strength and conditioning programme"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-center brightness-60"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-burgundy)] via-[var(--color-burgundy)]/50 to-transparent" />
-      </div>
+    <section className="relative w-full overflow-hidden bg-[var(--color-burgundy)] text-[var(--color-blush)] min-h-[560px] lg:min-h-[680px] flex flex-col justify-end">
+      {/* Background Image or Gradient */}
+      {imageSrc ? (
+        <div className="absolute inset-0 z-0">
+          <Image
+            src={imageSrc}
+            alt="Training programme"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-center brightness-60"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-burgundy)] via-[var(--color-burgundy)]/50 to-transparent" />
+        </div>
+      ) : (
+        <div className="absolute inset-0 z-0 bg-gradient-to-b from-[var(--color-burgundy)] via-[#3D1418] to-[var(--color-burgundy)]" />
+      )}
 
       {/* Hero Content Anchored at Bottom */}
       <div className="relative z-10 w-full max-w-[1500px] mx-auto px-6 sm:px-12 lg:px-16 pb-16 pt-32">

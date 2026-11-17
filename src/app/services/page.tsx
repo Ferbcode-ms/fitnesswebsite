@@ -24,7 +24,6 @@ export const metadata: Metadata = {
     description:
       "Explore 1-on-1 in-person training, online coaching, custom programming, and nutrition design.",
     url: "/services",
-    images: [{ url: "/images/service-collage-1.jpg", width: 800, height: 600, alt: "Coaching services overview" }],
   },
 };
 

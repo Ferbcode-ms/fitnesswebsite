@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { EditorialHeading } from "@/components/ui/EditorialHeading";
 
 export function AppointmentsHeroSection() {
@@ -20,18 +19,6 @@ export function AppointmentsHeroSection() {
         <p className="mt-6 text-[17px] md:text-[20px] leading-relaxed text-[var(--color-burgundy)]/90 max-w-2xl mx-auto">
           Schedule your complimentary consultation or reserve a 1-on-1 personal training assessment with our head coaching team.
         </p>
-
-        {/* Centered Editorial Visual Badge */}
-        <div className="mt-10 mx-auto max-w-md relative h-[220px] sm:h-[260px] rounded-[10px] overflow-hidden border border-[var(--color-burgundy)]/20 shadow-md">
-          <Image
-            src="/images/guide-left.jpg"
-            alt="Female fitness coach ready for consultation"
-            fill
-            priority
-            sizes="(max-width: 768px) 100vw, 440px"
-            className="object-cover object-center"
-          />
-        </div>
       </div>
     </section>
   );

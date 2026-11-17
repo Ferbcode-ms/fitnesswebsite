@@ -1,16 +1,8 @@
-import Image from "next/image";
 import Link from "next/link";
 import { siteConfig } from "@/config/site";
 import { navigationConfig } from "@/config/navigation";
 import { Container } from "@/components/ui/Container";
 import { EditorialHeading } from "@/components/ui/EditorialHeading";
-
-const footerThumbnails = [
-  { src: "/images/footer-1.jpg", alt: "Coach leading private strength training workout" },
-  { src: "/images/footer-2.jpg", alt: "Client barbell deadlift setup and proper form" },
-  { src: "/images/footer-3.jpg", alt: "High-protein recovery meal and nutrition prep" },
-  { src: "/images/footer-4.jpg", alt: "Studio kettlebells and functional resistance gear" },
-];
 
 interface FooterProps {
   settings?: {
@@ -53,24 +45,6 @@ export function Footer({ settings }: FooterProps = {}) {
             <EditorialHeading as="h4" size="h4" className="text-[var(--color-blush)]">
               <span suppressHydrationWarning>{businessName}</span>
             </EditorialHeading>
-
-            {/* 4 square thumbnail previews matching reference footer grid */}
-            <div className="grid grid-cols-4 gap-2 py-1 max-w-[240px]">
-              {footerThumbnails.map((thumb, i) => (
-                <div
-                  key={i}
-                  className="relative aspect-square bg-[var(--color-blush)]/15 border border-[var(--color-blush)]/30 overflow-hidden"
-                >
-                  <Image
-                    src={thumb.src}
-                    alt={thumb.alt}
-                    fill
-                    sizes="60px"
-                    className="object-cover"
-                  />
-                </div>
-              ))}
-            </div>
 
             <p className="text-[14px] leading-[1.5] text-[var(--color-cream)]">
               {onlineSummary}

@@ -17,7 +17,6 @@ export const metadata: Metadata = {
     description:
       "Get in touch with our coaching team. Inquire about 1-on-1 personal training, online coaching, or studio availability.",
     url: "/contact",
-    images: [{ url: "/images/test-coach.jpg", width: 800, height: 800, alt: "Contact our coaching team" }],
   },
 };
 

@@ -111,7 +111,10 @@ export function ImageUploader({ label, value, onChange, helperText, required }: 
 
       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
         {/* Preview Box */}
-        <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-lg border border-[#E8DFD8] bg-[#FBF8F5] flex items-center justify-center">
+        <div
+          suppressHydrationWarning
+          className="relative h-24 w-24 shrink-0 overflow-hidden rounded-lg border border-[#E8DFD8] bg-[#FBF8F5] flex items-center justify-center"
+        >
           {value ? (
             <Image
               src={value}
@@ -136,7 +139,7 @@ export function ImageUploader({ label, value, onChange, helperText, required }: 
                 onChange(e.target.value);
                 if (status !== "idle") setStatus("idle");
               }}
-              placeholder="e.g. /images/hero-coaching.jpg or https://res.cloudinary.com/..."
+              placeholder="https://res.cloudinary.com/... or image URL"
               className="w-full rounded-lg border border-[#E8DFD8] bg-white px-3 py-2 text-xs text-gray-800 placeholder-gray-400 focus:border-[var(--color-burgundy)] focus:outline-none"
             />
             <label className="flex shrink-0 items-center gap-1.5 cursor-pointer rounded-lg bg-[var(--color-burgundy)] px-3 py-2 text-xs font-semibold text-white hover:bg-[var(--color-burgundy)]/90 transition-colors">
