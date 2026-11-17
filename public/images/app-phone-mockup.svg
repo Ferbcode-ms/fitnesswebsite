@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 820" fill="none">
+  <!-- Phone Outer Frame -->
+  <rect x="10" y="10" width="360" height="800" rx="48" fill="#1C1C1E" stroke="#3A3A3C" stroke-width="6" />
+  <!-- Glass Bezel -->
+  <rect x="20" y="20" width="340" height="780" rx="40" fill="#2C1107" />
+  
+  <!-- Screen Area -->
+  <rect x="22" y="22" width="336" height="776" rx="38" fill="#F7EDE4" />
+
+  <!-- Dynamic Island -->
+  <rect x="135" y="32" width="110" height="28" rx="14" fill="#1C1C1E" />
+  <circle cx="225" cy="46" r="5" fill="#2A2A2E" />
+
+  <!-- Status Bar Time -->
+  <text x="50" y="52" fill="#4A1C21" font-family="-apple-system, sans-serif" font-weight="600" font-size="13">9:41</text>
+  <!-- Battery / Signal -->
+  <path d="M310 44 h14 v8 h-14 z" fill="#4A1C21" />
+
+  <!-- App Header -->
+  <rect x="22" y="70" width="336" height="60" fill="#4A1C21" />
+  <text x="42" y="96" fill="#E9C9CF" font-family="-apple-system, sans-serif" font-weight="700" font-size="11" letter-spacing="1">TODAY'S TRAINING PLAN</text>
+  <text x="42" y="116" fill="#F7EDE4" font-family="-apple-system, sans-serif" font-weight="800" font-size="15">WEEK 4 • LOWER BODY POWER</text>
+
+  <!-- Workout Summary Card -->
+  <rect x="38" y="146" width="304" height="76" rx="14" fill="#FFFFFF" stroke="#E9C9CF" stroke-width="1.5" />
+  <text x="54" y="174" fill="#4A1C21" font-family="-apple-system, sans-serif" font-weight="700" font-size="12">SESSION TARGETS</text>
+  <text x="54" y="202" fill="#2C1107" font-family="-apple-system, sans-serif" font-weight="500" font-size="12">5 Exercises • 45 min • Strength &amp; Core</text>
+  <rect x="250" y="162" width="76" height="42" rx="21" fill="#E9C9CF" />
+  <text x="288" y="187" text-anchor="middle" fill="#4A1C21" font-family="-apple-system, sans-serif" font-weight="700" font-size="11">IN PROGRESS</text>
+
+  <!-- Exercise Item 1 -->
+  <rect x="38" y="236" width="304" height="90" rx="14" fill="#FFFFFF" />
+  <circle cx="64" cy="281" r="14" fill="#4A1C21" />
+  <text x="64" y="286" text-anchor="middle" fill="#E9C9CF" font-weight="800" font-size="12">1</text>
+  <text x="90" y="268" fill="#4A1C21" font-family="-apple-system, sans-serif" font-weight="700" font-size="14">Barbell Romanian Deadlift</text>
+  <text x="90" y="290" fill="#2C1107" font-family="-apple-system, sans-serif" font-size="12">4 sets × 8 reps • Rest 90s</text>
+  <text x="90" y="308" fill="#4A1C21" font-family="-apple-system, sans-serif" font-weight="600" font-size="11">✓ Form video review verified</text>
+
+  <!-- Exercise Item 2 -->
+  <rect x="38" y="338" width="304" height="90" rx="14" fill="#FFFFFF" />
+  <circle cx="64" cy="383" r="14" fill="#E9C9CF" />
+  <text x="64" y="388" text-anchor="middle" fill="#4A1C21" font-weight="800" font-size="12">2</text>
+  <text x="90" y="370" fill="#4A1C21" font-family="-apple-system, sans-serif" font-weight="700" font-size="14">Bulgarian Split Squats</text>
+  <text x="90" y="392" fill="#2C1107" font-family="-apple-system, sans-serif" font-size="12">3 sets × 10 reps each leg</text>
+  <text x="90" y="410" fill="#4A1C21" font-family="-apple-system, sans-serif" font-weight="600" font-size="11">Target: 12.5kg dumbbells</text>
+
+  <!-- Exercise Item 3 -->
+  <rect x="38" y="440" width="304" height="90" rx="14" fill="#FFFFFF" />
+  <circle cx="64" cy="485" r="14" fill="#EDD8C4" />
+  <text x="64" y="490" text-anchor="middle" fill="#2C1107" font-weight="800" font-size="12">3</text>
+  <text x="90" y="472" fill="#4A1C21" font-family="-apple-system, sans-serif" font-weight="700" font-size="14">Dumbbell Hip Thrust</text>
+  <text x="90" y="494" fill="#2C1107" font-family="-apple-system, sans-serif" font-size="12">3 sets × 12 reps • 2s pause top</text>
+  <text x="90" y="512" fill="#4A1C21" font-family="-apple-system, sans-serif" font-weight="600" font-size="11">Glute activation focus</text>
+
+  <!-- Exercise Item 4 -->
+  <rect x="38" y="542" width="304" height="85" rx="14" fill="#FFFFFF" />
+  <circle cx="64" cy="584" r="14" fill="#E9C9CF" />
+  <text x="64" y="589" text-anchor="middle" fill="#4A1C21" font-weight="800" font-size="12">4</text>
+  <text x="90" y="574" fill="#4A1C21" font-family="-apple-system, sans-serif" font-weight="700" font-size="14">Hollow Body Core Hold</text>
+  <text x="90" y="596" fill="#2C1107" font-family="-apple-system, sans-serif" font-size="12">3 sets × 40 sec hold</text>
+
+  <!-- Coach Voice Note Bar -->
+  <rect x="38" y="640" width="304" height="54" rx="27" fill="#4A1C21" />
+  <circle cx="64" cy="667" r="16" fill="#EDD8C4" />
+  <polygon points="61,661 71,667 61,673" fill="#2C1107" />
+  <text x="92" y="663" fill="#F7EDE4" font-family="-apple-system, sans-serif" font-weight="700" font-size="12">Coach Audio Check-In</text>
+  <text x="92" y="680" fill="#E9C9CF" font-family="-apple-system, sans-serif" font-size="11">0:48 • &quot;Great hip extension on set 3!&quot;</text>
+
+  <!-- Bottom Navigation / Finish Pill -->
+  <rect x="38" y="708" width="304" height="52" rx="26" fill="#4A1C21" />
+  <text x="190" y="740" text-anchor="middle" fill="#F7EDE4" font-family="-apple-system, sans-serif" font-weight="800" font-size="13" letter-spacing="1">COMPLETE WORKOUT</text>
+
+  <!-- Home indicator line -->
+  <rect x="130" y="784" width="120" height="4" rx="2" fill="#4A1C21" opacity="0.4" />
+</svg>
+

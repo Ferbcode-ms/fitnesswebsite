@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <!-- Hand-drawn style dumbbell line-art sticker matching Phase 0 reference -->
+  <g transform="rotate(-30 100 100)">
+    <!-- Central bar -->
+    <rect x="75" y="93" width="50" height="14" rx="7" fill="#4A1C21" />
+    <line x1="85" y1="94" x2="85" y2="106" stroke="#F7EDE4" stroke-width="1.5" />
+    <line x1="95" y1="94" x2="95" y2="106" stroke="#F7EDE4" stroke-width="1.5" />
+    <line x1="105" y1="94" x2="105" y2="106" stroke="#F7EDE4" stroke-width="1.5" />
+    <line x1="115" y1="94" x2="115" y2="106" stroke="#F7EDE4" stroke-width="1.5" />
+    <!-- Left Inner Plate -->
+    <rect x="62" y="70" width="14" height="60" rx="7" fill="#4A1C21" stroke="#F7EDE4" stroke-width="2" />
+    <!-- Left Outer Plate -->
+    <rect x="46" y="78" width="14" height="44" rx="7" fill="#4A1C21" stroke="#F7EDE4" stroke-width="2" />
+    <!-- Left End Nut -->
+    <rect x="40" y="94" width="6" height="12" rx="3" fill="#4A1C21" />
+    <!-- Right Inner Plate -->
+    <rect x="124" y="70" width="14" height="60" rx="7" fill="#4A1C21" stroke="#F7EDE4" stroke-width="2" />
+    <!-- Right Outer Plate -->
+    <rect x="140" y="78" width="14" height="44" rx="7" fill="#4A1C21" stroke="#F7EDE4" stroke-width="2" />
+    <!-- Right End Nut -->
+    <rect x="154" y="94" width="6" height="12" rx="3" fill="#4A1C21" />
+  </g>
+  <!-- Subtle decorative spark / star -->
+  <path d="M165 40 L168 50 L178 53 L168 56 L165 66 L162 56 L152 53 L162 50 Z" fill="#4A1C21" />
+</svg>
+

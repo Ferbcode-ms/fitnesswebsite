@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <!-- Stylized Kettlebell line-art sticker -->
+  <g transform="rotate(10 100 105)">
+    <!-- Handle -->
+    <path d="M68 85 C68 45, 132 45, 132 85" stroke="#4A1C21" stroke-width="12" stroke-linecap="round" fill="none" />
+    <path d="M74 85 C74 55, 126 55, 126 85" stroke="#F7EDE4" stroke-width="3" stroke-linecap="round" fill="none" />
+    <!-- Bell Body -->
+    <circle cx="100" cy="120" r="50" fill="#4A1C21" />
+    <!-- Flat bottom -->
+    <rect x="75" y="160" width="50" height="10" rx="4" fill="#4A1C21" />
+    <!-- Inner Accent Line -->
+    <path d="M65 110 Q100 145 135 110" stroke="#F7EDE4" stroke-width="2" fill="none" />
+    <!-- Star badge on bell -->
+    <polygon points="100,105 103,113 111,114 105,120 107,128 100,124 93,128 95,120 89,114 97,113" fill="#F7EDE4" />
+  </g>
+  <!-- Sparkles -->
+  <path d="M35 140 L38 148 L46 150 L38 152 L35 160 L32 152 L24 150 L32 148 Z" fill="#4A1C21" />
+</svg>
+
