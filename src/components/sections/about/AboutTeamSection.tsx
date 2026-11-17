@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 import { EditorialHeading } from "@/components/ui/EditorialHeading";
 import { siteConfig } from "@/config/site";
+import { optimizeCloudinaryUrl } from "@/lib/utils";
 
 interface TeamMember {
   name: string;
@@ -85,7 +86,7 @@ export function AboutTeamSection({
             >
               <div className="relative h-[320px] w-full bg-[var(--color-burgundy)]/10">
                 <Image
-                  src={member.imageSrc}
+                  src={optimizeCloudinaryUrl(member.imageSrc, { width: 800 }) || member.imageSrc}
                   alt={member.name}
                   fill
                   sizes="(max-width: 768px) 100vw, 33vw"

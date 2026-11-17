@@ -1,5 +1,5 @@
 import Image, { type ImageProps } from "next/image";
-import { cn } from "@/lib/utils";
+import { cn, optimizeCloudinaryUrl } from "@/lib/utils";
 
 export type ImageAspectRatio =
   | "1/1"
@@ -57,6 +57,13 @@ export function ImageWrapper({
   ...rest
 }: ImageWrapperProps) {
   const isFilled = fill || (aspectRatio !== "auto" && !width && !height);
+  const resolvedSrc =
+    typeof src === "string"
+      ? optimizeCloudinaryUrl(src, {
+          width: typeof width === "number" ? width : 1200,
+          quality: "auto",
+        })
+      : src;
 
   return (
     <div
@@ -69,7 +76,7 @@ export function ImageWrapper({
     >
       {isFilled ? (
         <Image
-          src={src}
+          src={resolvedSrc}
           alt={alt}
           fill
           priority={priority}
@@ -83,7 +90,7 @@ export function ImageWrapper({
         />
       ) : (
         <Image
-          src={src}
+          src={resolvedSrc}
           alt={alt}
           width={width}
           height={height}

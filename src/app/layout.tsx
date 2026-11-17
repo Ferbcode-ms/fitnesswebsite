@@ -121,6 +121,8 @@ export default async function RootLayout({
       className={`${lilitaOne.variable} ${sometypeMono.variable} ${roboto.variable} ${laBelleAurore.variable} no-scrollbar`}
     >
       <head>
+        <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://res.cloudinary.com" />
         <JsonLd type="website" />
         <style
           dangerouslySetInnerHTML={{

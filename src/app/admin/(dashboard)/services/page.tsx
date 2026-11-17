@@ -1,12 +1,16 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { AdminCard } from "@/components/admin/AdminCard";
 import { StatusBadge } from "@/components/admin/StatusBadge";
-import { ImageUploader } from "@/components/admin/ImageUploader";
 import { saveServiceAction, deleteServiceAction, savePageSectionAction } from "@/lib/cms/actions";
+import {
+  DEFAULT_COMPARISON_ROWS,
+  DEFAULT_COMPARISON_COLUMNS,
+  type ComparisonRowItem,
+  type ComparisonColumnConfig,
+} from "@/components/sections/services/ServicesComparisonTableSection";
 import {
   Plus,
   Edit2,
@@ -18,6 +22,12 @@ import {
   Layout,
   Save,
   Eye,
+  Table,
+  ArrowUp,
+  ArrowDown,
+  RotateCcw,
+  Check,
+  Minus,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -97,7 +107,7 @@ const DEFAULT_SERVICES: ServiceItem[] = [
 ];
 
 export default function AdminServicesManager() {
-  const [activeTab, setActiveTab] = useState<"sections" | "cards">("sections");
+  const [activeTab, setActiveTab] = useState<"sections" | "comparison" | "cards">("sections");
 
   // Services Cards State
   const [items, setItems] = useState<ServiceItem[]>(DEFAULT_SERVICES);
@@ -122,6 +132,15 @@ export default function AdminServicesManager() {
   const [compBadge, setCompBadge] = useState("Side-By-Side Comparison");
   const [compHeading, setCompHeading] = useState("WHICH FORMAT fits you?");
   const [compSubtitle, setCompSubtitle] = useState("Compare features across our three coaching formats to find the ideal balance of hands-on coaching and lifestyle flexibility.");
+
+  // Comparison Table Dynamic Columns & Rows State
+  const [comparisonColumns, setComparisonColumns] = useState<{
+    col1: ComparisonColumnConfig;
+    col2: ComparisonColumnConfig;
+    col3: ComparisonColumnConfig;
+  }>(DEFAULT_COMPARISON_COLUMNS);
+
+  const [comparisonRows, setComparisonRows] = useState<ComparisonRowItem[]>(DEFAULT_COMPARISON_ROWS);
 
   const [savingSections, setSavingSections] = useState(false);
   const [statusMsg, setStatusMsg] = useState<{ type: "success" | "error"; text: string } | null>(null);
@@ -166,6 +185,18 @@ export default function AdminServicesManager() {
           if (c?.compBadge) setCompBadge(c.compBadge);
           if (c?.compHeading) setCompHeading(c.compHeading);
           if (c?.compSubtitle) setCompSubtitle(c.compSubtitle);
+
+          if (c?.compColumns) {
+            setComparisonColumns({
+              col1: { ...DEFAULT_COMPARISON_COLUMNS.col1, ...c.compColumns.col1 },
+              col2: { ...DEFAULT_COMPARISON_COLUMNS.col2, ...c.compColumns.col2 },
+              col3: { ...DEFAULT_COMPARISON_COLUMNS.col3, ...c.compColumns.col3 },
+            });
+          }
+
+          if (c?.compRows && Array.isArray(c.compRows) && c.compRows.length > 0) {
+            setComparisonRows(c.compRows);
+          }
         }
       } catch (err) {
         console.error("Failed to load services sections from supabase:", err);
@@ -269,6 +300,8 @@ export default function AdminServicesManager() {
         compBadge,
         compHeading,
         compSubtitle,
+        compColumns: comparisonColumns,
+        compRows: comparisonRows,
       };
 
       const res = await savePageSectionAction(
@@ -285,7 +318,7 @@ export default function AdminServicesManager() {
       if (res.success) {
         setStatusMsg({
           type: "success",
-          text: `All Services page content successfully ${status === "published" ? "published live" : "saved as draft"}.`,
+          text: `All Services page content and comparison table successfully ${status === "published" ? "published live" : "saved as draft"}.`,
         });
       } else {
         setStatusMsg({ type: "error", text: res.message || "Failed to save sections." });
@@ -294,6 +327,55 @@ export default function AdminServicesManager() {
       setStatusMsg({ type: "error", text: "An error occurred while saving." });
     } finally {
       setSavingSections(false);
+    }
+  };
+
+  // Comparison Rows Handlers
+  const handleAddComparisonRow = () => {
+    setComparisonRows([
+      ...comparisonRows,
+      {
+        feature: "New Feature / Benefit",
+        inPerson: "true",
+        online: "true",
+        hybrid: "true",
+      },
+    ]);
+  };
+
+  const handleDeleteComparisonRow = (idx: number) => {
+    if (comparisonRows.length <= 1) {
+      if (!confirm("This is your only comparison row. Delete it?")) return;
+    }
+    setComparisonRows(comparisonRows.filter((_, i) => i !== idx));
+  };
+
+  const handleMoveComparisonRow = (idx: number, direction: "up" | "down") => {
+    if (direction === "up" && idx === 0) return;
+    if (direction === "down" && idx === comparisonRows.length - 1) return;
+    const targetIdx = direction === "up" ? idx - 1 : idx + 1;
+    const updated = [...comparisonRows];
+    const [moved] = updated.splice(idx, 1);
+    updated.splice(targetIdx, 0, moved);
+    setComparisonRows(updated);
+  };
+
+  const handleComparisonRowChange = (
+    idx: number,
+    field: "feature" | "inPerson" | "online" | "hybrid",
+    value: string | boolean
+  ) => {
+    setComparisonRows((prev) => {
+      const updated = [...prev];
+      updated[idx] = { ...updated[idx], [field]: value };
+      return updated;
+    });
+  };
+
+  const handleResetComparisonDefaults = () => {
+    if (confirm("Reset comparison table to default Hot Core Pilates features & columns?")) {
+      setComparisonColumns(DEFAULT_COMPARISON_COLUMNS);
+      setComparisonRows(DEFAULT_COMPARISON_ROWS);
     }
   };
 
@@ -309,7 +391,7 @@ export default function AdminServicesManager() {
             ALL SERVICES CMS
           </h1>
           <p className="text-xs text-gray-500 font-mono mt-0.5">
-            Manage your All Services overview page, hero copy, service offering cards, and comparison section.
+            Manage your All Services overview page, hero copy, side-by-side comparison table, and service cards.
           </p>
         </div>
 
@@ -385,6 +467,20 @@ export default function AdminServicesManager() {
         >
           <Layout className="h-4 w-4" />
           <span>Page Sections & Headlines</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => { setActiveTab("comparison"); setStatusMsg(null); }}
+          className={cn(
+            "pb-3 text-xs font-bold uppercase tracking-wider flex items-center gap-2 border-b-2 transition-colors",
+            activeTab === "comparison"
+              ? "border-[var(--color-burgundy)] text-[var(--color-burgundy)]"
+              : "border-transparent text-gray-500 hover:text-gray-800"
+          )}
+        >
+          <Table className="h-4 w-4" />
+          <span>Comparison Table ({comparisonRows.length} Rows)</span>
         </button>
 
         <button
@@ -524,8 +620,70 @@ export default function AdminServicesManager() {
             </div>
           </AdminCard>
 
-          {/* 3. Comparison Table Intro */}
-          <AdminCard title="3. Side-By-Side Comparison Section Header">
+          {/* 3. Comparison Table Quick Overview */}
+          <AdminCard title="3. Side-By-Side Comparison Section Preview">
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-[var(--color-burgundy)] mb-1">
+                    Section Badge
+                  </label>
+                  <input
+                    type="text"
+                    value={compBadge}
+                    onChange={(e) => setCompBadge(e.target.value)}
+                    className="w-full rounded-lg border border-[#E8DFD8] bg-white p-2 text-xs text-gray-900"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-[var(--color-burgundy)] mb-1">
+                    Section Heading
+                  </label>
+                  <input
+                    type="text"
+                    value={compHeading}
+                    onChange={(e) => setCompHeading(e.target.value)}
+                    className="w-full rounded-lg border border-[#E8DFD8] bg-white p-2 text-xs text-gray-900"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-[var(--color-burgundy)] mb-1">
+                    Section Subtitle
+                  </label>
+                  <input
+                    type="text"
+                    value={compSubtitle}
+                    onChange={(e) => setCompSubtitle(e.target.value)}
+                    className="w-full rounded-lg border border-[#E8DFD8] bg-white p-2 text-xs text-gray-900"
+                  />
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between p-3 rounded-lg bg-[var(--color-cream)] border border-[#E8DFD8]">
+                <div className="flex items-center gap-2">
+                  <Table className="h-4 w-4 text-[var(--color-burgundy)]" />
+                  <span className="text-xs font-bold text-[var(--color-burgundy)]">
+                    Comparison Table has {comparisonRows.length} active features and 3 configurable columns.
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveTab("comparison")}
+                  className="text-xs font-bold uppercase tracking-wider text-[var(--color-burgundy)] underline hover:opacity-80"
+                >
+                  Edit Full Table &rarr;
+                </button>
+              </div>
+            </div>
+          </AdminCard>
+        </div>
+      )}
+
+      {/* TAB 2: SIDE-BY-SIDE COMPARISON TABLE MANAGER */}
+      {activeTab === "comparison" && (
+        <div className="space-y-6">
+          {/* 1. Header Copy */}
+          <AdminCard title="1. Comparison Section Header Copy">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div>
                 <label className="block text-xs font-semibold uppercase tracking-wider text-[var(--color-burgundy)] mb-1">
@@ -546,7 +704,7 @@ export default function AdminServicesManager() {
                   type="text"
                   value={compHeading}
                   onChange={(e) => setCompHeading(e.target.value)}
-                  className="w-full rounded-lg border border-[#E8DFD8] bg-white p-2 text-xs text-gray-900"
+                  className="w-full rounded-lg border border-[#E8DFD8] bg-white p-2 text-xs font-bold text-gray-900"
                 />
               </div>
               <div>
@@ -562,41 +720,434 @@ export default function AdminServicesManager() {
               </div>
             </div>
           </AdminCard>
+
+          {/* 2. Table Column Titles & Actions */}
+          <AdminCard title="2. Table Columns & Booking Action Buttons">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {/* Column 1 */}
+              <div className="p-3.5 rounded-lg border border-[#E8DFD8] bg-gray-50/60 space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <span className="font-bold text-xs uppercase tracking-wider text-[var(--color-burgundy)]">
+                    Column 1 (In-Person)
+                  </span>
+                  <span className="text-[10px] font-mono text-gray-500">Col 1</span>
+                </div>
+                <div>
+                  <label className="block text-[11px] font-semibold text-gray-600 mb-0.5">Column Header</label>
+                  <input
+                    type="text"
+                    value={comparisonColumns.col1.title}
+                    onChange={(e) =>
+                      setComparisonColumns({
+                        ...comparisonColumns,
+                        col1: { ...comparisonColumns.col1, title: e.target.value },
+                      })
+                    }
+                    className="w-full rounded border border-[#E8DFD8] bg-white p-1.5 text-xs font-semibold"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-semibold text-gray-600 mb-0.5">Button Text</label>
+                  <input
+                    type="text"
+                    value={comparisonColumns.col1.ctaText || ""}
+                    onChange={(e) =>
+                      setComparisonColumns({
+                        ...comparisonColumns,
+                        col1: { ...comparisonColumns.col1, ctaText: e.target.value },
+                      })
+                    }
+                    className="w-full rounded border border-[#E8DFD8] bg-white p-1.5 text-xs"
+                    placeholder="Book In-Person"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-semibold text-gray-600 mb-0.5">Button Link</label>
+                  <input
+                    type="text"
+                    value={comparisonColumns.col1.ctaLink || ""}
+                    onChange={(e) =>
+                      setComparisonColumns({
+                        ...comparisonColumns,
+                        col1: { ...comparisonColumns.col1, ctaLink: e.target.value },
+                      })
+                    }
+                    className="w-full rounded border border-[#E8DFD8] bg-white p-1.5 text-xs font-mono"
+                    placeholder="/appointments"
+                  />
+                </div>
+              </div>
+
+              {/* Column 2 */}
+              <div className="p-3.5 rounded-lg border-2 border-[var(--color-burgundy)]/30 bg-[var(--color-cream)]/40 space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <span className="font-bold text-xs uppercase tracking-wider text-[var(--color-burgundy)] flex items-center gap-1.5">
+                    Column 2 (Online)
+                    <span className="rounded bg-[var(--color-burgundy)] px-1.5 py-0.2 text-[9px] text-white">HIGHLIGHTED</span>
+                  </span>
+                  <span className="text-[10px] font-mono text-gray-500">Col 2</span>
+                </div>
+                <div>
+                  <label className="block text-[11px] font-semibold text-gray-600 mb-0.5">Column Header</label>
+                  <input
+                    type="text"
+                    value={comparisonColumns.col2.title}
+                    onChange={(e) =>
+                      setComparisonColumns({
+                        ...comparisonColumns,
+                        col2: { ...comparisonColumns.col2, title: e.target.value },
+                      })
+                    }
+                    className="w-full rounded border border-[#E8DFD8] bg-white p-1.5 text-xs font-semibold"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-semibold text-gray-600 mb-0.5">Button Text</label>
+                  <input
+                    type="text"
+                    value={comparisonColumns.col2.ctaText || ""}
+                    onChange={(e) =>
+                      setComparisonColumns({
+                        ...comparisonColumns,
+                        col2: { ...comparisonColumns.col2, ctaText: e.target.value },
+                      })
+                    }
+                    className="w-full rounded border border-[#E8DFD8] bg-white p-1.5 text-xs"
+                    placeholder="View Online"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-semibold text-gray-600 mb-0.5">Button Link</label>
+                  <input
+                    type="text"
+                    value={comparisonColumns.col2.ctaLink || ""}
+                    onChange={(e) =>
+                      setComparisonColumns({
+                        ...comparisonColumns,
+                        col2: { ...comparisonColumns.col2, ctaLink: e.target.value },
+                      })
+                    }
+                    className="w-full rounded border border-[#E8DFD8] bg-white p-1.5 text-xs font-mono"
+                    placeholder="/single-service"
+                  />
+                </div>
+              </div>
+
+              {/* Column 3 */}
+              <div className="p-3.5 rounded-lg border border-[#E8DFD8] bg-gray-50/60 space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <span className="font-bold text-xs uppercase tracking-wider text-[var(--color-burgundy)]">
+                    Column 3 (Hybrid)
+                  </span>
+                  <span className="text-[10px] font-mono text-gray-500">Col 3</span>
+                </div>
+                <div>
+                  <label className="block text-[11px] font-semibold text-gray-600 mb-0.5">Column Header</label>
+                  <input
+                    type="text"
+                    value={comparisonColumns.col3.title}
+                    onChange={(e) =>
+                      setComparisonColumns({
+                        ...comparisonColumns,
+                        col3: { ...comparisonColumns.col3, title: e.target.value },
+                      })
+                    }
+                    className="w-full rounded border border-[#E8DFD8] bg-white p-1.5 text-xs font-semibold"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-semibold text-gray-600 mb-0.5">Button Text</label>
+                  <input
+                    type="text"
+                    value={comparisonColumns.col3.ctaText || ""}
+                    onChange={(e) =>
+                      setComparisonColumns({
+                        ...comparisonColumns,
+                        col3: { ...comparisonColumns.col3, ctaText: e.target.value },
+                      })
+                    }
+                    className="w-full rounded border border-[#E8DFD8] bg-white p-1.5 text-xs"
+                    placeholder="Inquire Hybrid"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-semibold text-gray-600 mb-0.5">Button Link</label>
+                  <input
+                    type="text"
+                    value={comparisonColumns.col3.ctaLink || ""}
+                    onChange={(e) =>
+                      setComparisonColumns({
+                        ...comparisonColumns,
+                        col3: { ...comparisonColumns.col3, ctaLink: e.target.value },
+                      })
+                    }
+                    className="w-full rounded border border-[#E8DFD8] bg-white p-1.5 text-xs font-mono"
+                    placeholder="/appointments"
+                  />
+                </div>
+              </div>
+            </div>
+          </AdminCard>
+
+          {/* 3. Feature Rows Management */}
+          <AdminCard
+            title={`3. Comparison Table Features (${comparisonRows.length} Items)`}
+            description="Edit feature labels and values for each column. Enter custom text (e.g. 'Private Studio Suite') or use the quick '✓ Yes' / '✕ No' buttons for checkmarks and dashes."
+          >
+            <div className="space-y-3">
+              {comparisonRows.map((row, idx) => {
+                const inPersonStr = String(row.inPerson).toLowerCase().trim();
+                const isCol1Yes = inPersonStr === "true" || inPersonStr === "yes" || inPersonStr === "✓";
+                const isCol1No = inPersonStr === "false" || inPersonStr === "no" || inPersonStr === "✕" || inPersonStr === "-";
+
+                const onlineStr = String(row.online).toLowerCase().trim();
+                const isCol2Yes = onlineStr === "true" || onlineStr === "yes" || onlineStr === "✓";
+                const isCol2No = onlineStr === "false" || onlineStr === "no" || onlineStr === "✕" || onlineStr === "-";
+
+                const hybridStr = String(row.hybrid).toLowerCase().trim();
+                const isCol3Yes = hybridStr === "true" || hybridStr === "yes" || hybridStr === "✓";
+                const isCol3No = hybridStr === "false" || hybridStr === "no" || hybridStr === "✕" || hybridStr === "-";
+
+                return (
+                  <div
+                    key={idx}
+                    className="p-3.5 rounded-xl border border-[#E8DFD8] bg-white hover:border-[var(--color-burgundy)]/40 transition-colors shadow-sm space-y-3"
+                  >
+                    <div className="flex items-center justify-between gap-3 pb-2 border-b border-gray-100">
+                      <div className="flex items-center gap-2 flex-1">
+                        <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[var(--color-cream)] text-[10px] font-mono font-bold text-[var(--color-burgundy)]">
+                          {idx + 1}
+                        </span>
+                        <input
+                          type="text"
+                          value={row.feature}
+                          onChange={(e) => handleComparisonRowChange(idx, "feature", e.target.value)}
+                          placeholder="Feature Name (e.g. Hands-on Real-time Cueing)"
+                          className="flex-1 font-[family-name:var(--font-mono)] text-xs font-bold text-[var(--color-burgundy)] rounded border border-[#E8DFD8] p-1.5 focus:border-[var(--color-burgundy)] focus:outline-none"
+                        />
+                      </div>
+
+                      <div className="flex items-center gap-1">
+                        <button
+                          type="button"
+                          onClick={() => handleMoveComparisonRow(idx, "up")}
+                          disabled={idx === 0}
+                          title="Move Up"
+                          className="rounded p-1 text-gray-500 hover:bg-gray-100 disabled:opacity-30"
+                        >
+                          <ArrowUp className="h-3.5 w-3.5" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleMoveComparisonRow(idx, "down")}
+                          disabled={idx === comparisonRows.length - 1}
+                          title="Move Down"
+                          className="rounded p-1 text-gray-500 hover:bg-gray-100 disabled:opacity-30"
+                        >
+                          <ArrowDown className="h-3.5 w-3.5" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleDeleteComparisonRow(idx)}
+                          title="Delete Feature"
+                          className="rounded p-1 text-red-600 hover:bg-red-50"
+                        >
+                          <Trash2 className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Columns 1, 2, 3 Inputs & Quick Yes/No Toggles */}
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                      {/* Col 1 */}
+                      <div className="space-y-1">
+                        <div className="flex items-center justify-between">
+                          <span className="text-[10px] font-mono text-gray-500 uppercase">{comparisonColumns.col1.title}</span>
+                          <div className="flex items-center gap-1">
+                            <button
+                              type="button"
+                              onClick={() => handleComparisonRowChange(idx, "inPerson", "true")}
+                              className={cn(
+                                "flex items-center gap-0.5 rounded px-1.5 py-0.5 text-[10px] font-bold transition-colors",
+                                isCol1Yes
+                                  ? "bg-[var(--color-burgundy)] text-white"
+                                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                              )}
+                            >
+                              <Check className="h-3 w-3" /> Yes
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => handleComparisonRowChange(idx, "inPerson", "false")}
+                              className={cn(
+                                "flex items-center gap-0.5 rounded px-1.5 py-0.5 text-[10px] font-bold transition-colors",
+                                isCol1No
+                                  ? "bg-gray-700 text-white"
+                                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                              )}
+                            >
+                              <Minus className="h-3 w-3" /> No
+                            </button>
+                          </div>
+                        </div>
+                        <input
+                          type="text"
+                          value={row.inPerson === true ? "true" : row.inPerson === false ? "false" : row.inPerson}
+                          onChange={(e) => handleComparisonRowChange(idx, "inPerson", e.target.value)}
+                          placeholder="e.g. Private Studio Suite or true/false"
+                          className="w-full rounded border border-[#E8DFD8] p-1.5 text-xs bg-white text-gray-800"
+                        />
+                      </div>
+
+                      {/* Col 2 */}
+                      <div className="space-y-1 p-1.5 rounded bg-[var(--color-cream)]/30 border border-[#E8DFD8]/60">
+                        <div className="flex items-center justify-between">
+                          <span className="text-[10px] font-mono text-[var(--color-burgundy)] font-bold uppercase">
+                            {comparisonColumns.col2.title}
+                          </span>
+                          <div className="flex items-center gap-1">
+                            <button
+                              type="button"
+                              onClick={() => handleComparisonRowChange(idx, "online", "true")}
+                              className={cn(
+                                "flex items-center gap-0.5 rounded px-1.5 py-0.5 text-[10px] font-bold transition-colors",
+                                isCol2Yes
+                                  ? "bg-[var(--color-burgundy)] text-white"
+                                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                              )}
+                            >
+                              <Check className="h-3 w-3" /> Yes
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => handleComparisonRowChange(idx, "online", "false")}
+                              className={cn(
+                                "flex items-center gap-0.5 rounded px-1.5 py-0.5 text-[10px] font-bold transition-colors",
+                                isCol2No
+                                  ? "bg-gray-700 text-white"
+                                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                              )}
+                            >
+                              <Minus className="h-3 w-3" /> No
+                            </button>
+                          </div>
+                        </div>
+                        <input
+                          type="text"
+                          value={row.online === true ? "true" : row.online === false ? "false" : row.online}
+                          onChange={(e) => handleComparisonRowChange(idx, "online", e.target.value)}
+                          placeholder="e.g. Anywhere in the World or true/false"
+                          className="w-full rounded border border-[#E8DFD8] p-1.5 text-xs bg-white text-gray-800"
+                        />
+                      </div>
+
+                      {/* Col 3 */}
+                      <div className="space-y-1">
+                        <div className="flex items-center justify-between">
+                          <span className="text-[10px] font-mono text-gray-500 uppercase">{comparisonColumns.col3.title}</span>
+                          <div className="flex items-center gap-1">
+                            <button
+                              type="button"
+                              onClick={() => handleComparisonRowChange(idx, "hybrid", "true")}
+                              className={cn(
+                                "flex items-center gap-0.5 rounded px-1.5 py-0.5 text-[10px] font-bold transition-colors",
+                                isCol3Yes
+                                  ? "bg-[var(--color-burgundy)] text-white"
+                                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                              )}
+                            >
+                              <Check className="h-3 w-3" /> Yes
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => handleComparisonRowChange(idx, "hybrid", "false")}
+                              className={cn(
+                                "flex items-center gap-0.5 rounded px-1.5 py-0.5 text-[10px] font-bold transition-colors",
+                                isCol3No
+                                  ? "bg-gray-700 text-white"
+                                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                              )}
+                            >
+                              <Minus className="h-3 w-3" /> No
+                            </button>
+                          </div>
+                        </div>
+                        <input
+                          type="text"
+                          value={row.hybrid === true ? "true" : row.hybrid === false ? "false" : row.hybrid}
+                          onChange={(e) => handleComparisonRowChange(idx, "hybrid", e.target.value)}
+                          placeholder="e.g. Studio + Remote App or true/false"
+                          className="w-full rounded border border-[#E8DFD8] p-1.5 text-xs bg-white text-gray-800"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+
+              <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-[#E8DFD8]">
+                <button
+                  type="button"
+                  onClick={handleAddComparisonRow}
+                  className="flex items-center gap-1.5 rounded-lg border border-[var(--color-burgundy)] bg-white px-3.5 py-2 text-xs font-bold uppercase tracking-wider text-[var(--color-burgundy)] hover:bg-[var(--color-cream)] transition-colors"
+                >
+                  <Plus className="h-3.5 w-3.5" />
+                  <span>Add Feature Row</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleResetComparisonDefaults}
+                  className="flex items-center gap-1.5 rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-[11px] font-semibold text-gray-600 hover:bg-gray-50 transition-colors"
+                >
+                  <RotateCcw className="h-3 w-3" />
+                  <span>Reset to Defaults</span>
+                </button>
+              </div>
+            </div>
+          </AdminCard>
+
+          {/* Sticky Bottom Save / Publish Bar */}
+          <div className="flex items-center justify-end gap-3 p-4 rounded-xl bg-white border border-[#E8DFD8] shadow-sm">
+            <button
+              onClick={() => handleSaveSections("draft")}
+              disabled={savingSections}
+              className="rounded-lg border border-[var(--color-burgundy)] bg-white px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-[var(--color-burgundy)] hover:bg-[var(--color-cream)] disabled:opacity-50 transition-colors"
+            >
+              Save Draft
+            </button>
+
+            <button
+              onClick={() => handleSaveSections("published")}
+              disabled={savingSections}
+              className="flex items-center gap-2 rounded-lg bg-[var(--color-burgundy)] px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-white shadow-sm hover:bg-[var(--color-burgundy)]/90 disabled:opacity-50 transition-colors"
+            >
+              <Save className="h-4 w-4" />
+              <span>{savingSections ? "Publishing Live..." : "Publish Comparison Table Live"}</span>
+            </button>
+          </div>
         </div>
       )}
 
-      {/* TAB 2: COACHING OFFERINGS CARDS */}
+      {/* TAB 3: COACHING OFFERINGS CARDS */}
       {activeTab === "cards" && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {items.map((item) => (
             <AdminCard key={item.id} className="flex flex-col justify-between">
               <div className="space-y-3">
-                <div className="relative aspect-[4/3] w-full rounded-lg overflow-hidden bg-gray-100 border border-[#E8DFD8]">
-                  {item.image_url ? (
-                    <Image
-                      src={item.image_url}
-                      alt={item.title}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                    />
-                  ) : (
-                    <div className="flex h-full w-full items-center justify-center text-gray-400">
-                      <Sparkles className="h-8 w-8" />
-                    </div>
-                  )}
-                  <div className="absolute top-2 left-2 flex gap-1.5">
+                <div className="flex items-center justify-between pb-3 border-b border-[#E8DFD8]">
+                  <div className="flex items-center gap-1.5">
                     <StatusBadge status={item.status} />
                     <span className="rounded bg-[var(--color-burgundy)] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white">
                       {item.service_type === "in_person" ? "IN-STUDIO" : item.service_type === "online" ? "REMOTE" : "HYBRID"}
                     </span>
                   </div>
-                </div>
-
-                <div>
                   <span className="font-mono text-[11px] text-[var(--color-burgundy)] uppercase tracking-wider font-semibold">
                     {item.pricing_tier || "Coaching Tier"}
                   </span>
+                </div>
+
+                <div>
                   <h3 className="font-[family-name:var(--font-heading)] text-lg font-bold tracking-wider text-[var(--color-burgundy)]">
                     {item.title}
                   </h3>
@@ -727,12 +1278,6 @@ export default function AdminServicesManager() {
                   className="w-full font-mono rounded-lg border border-[#E8DFD8] p-2 text-xs focus:border-[var(--color-burgundy)] focus:outline-none"
                 />
               </div>
-
-              <ImageUploader
-                label="Service Image"
-                value={editingItem.image_url || ""}
-                onChange={(url) => setEditingItem({ ...editingItem, image_url: url })}
-              />
 
               <div className="grid grid-cols-2 gap-3">
                 <div>

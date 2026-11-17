@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { SmoothScroll } from "./SmoothScroll";
+import { cn } from "@/lib/utils";
 
 interface SiteSettings {
   business_name?: string;
@@ -30,6 +31,8 @@ export function SiteLayout({ children, settings }: SiteLayoutProps) {
   const pathname = usePathname();
   const isAdmin = pathname.startsWith("/admin");
 
+  const isHome = pathname === "/";
+
   if (isAdmin) {
     return <>{children}</>;
   }
@@ -40,7 +43,7 @@ export function SiteLayout({ children, settings }: SiteLayoutProps) {
       <Header settings={settings} />
       <main
         id="main-content"
-        className="flex-1 pt-[var(--header-height-desktop)]"
+        className={cn("flex-1", !isHome && "pt-[var(--header-height-desktop)]")}
         suppressHydrationWarning
       >
         {children}

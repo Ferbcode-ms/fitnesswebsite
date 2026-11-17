@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import { ServicesHeroSection } from "@/components/sections/services/ServicesHeroSection";
 import { ServicesGridSection } from "@/components/sections/services/ServicesGridSection";
-import { ServicesComparisonTableSection } from "@/components/sections/services/ServicesComparisonTableSection";
+import {
+  ServicesComparisonTableSection,
+  type ComparisonRowItem,
+  type ServicesComparisonTableSectionProps,
+} from "@/components/sections/services/ServicesComparisonTableSection";
 import { BottomSplitCtaSection } from "@/components/sections/home/BottomSplitCtaSection";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getServices, getPageSections } from "@/lib/cms/queries";
@@ -65,7 +69,9 @@ export default async function ServicesPage() {
       <ServicesComparisonTableSection
         badge={content?.compBadge as string | undefined}
         heading={content?.compHeading as string | undefined}
-        subtext={content?.compSubtext as string | undefined}
+        subtext={(content?.compSubtitle as string) || (content?.compSubtext as string) || undefined}
+        columns={content?.compColumns as ServicesComparisonTableSectionProps["columns"]}
+        rows={content?.compRows as ComparisonRowItem[] | undefined}
       />
       <BottomSplitCtaSection
         headline={content?.bottomCtaTitle as string | undefined}

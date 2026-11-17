@@ -50,7 +50,7 @@ export function HeroSection({
   const isLongHeadline = headline.length > 22;
 
   return (
-    <section className="-mt-[var(--header-height-desktop)] relative w-full h-[100dvh] overflow-hidden bg-[var(--color-burgundy)] text-[var(--color-blush)] flex flex-col justify-between">
+    <section className="relative w-full h-screen min-h-[100dvh] overflow-hidden bg-[var(--color-burgundy)] text-[var(--color-blush)] flex flex-col justify-between">
       {/* Background Media with Soft Tonal Overlay */}
       <div className="absolute inset-0 z-0">
         <Image

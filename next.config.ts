@@ -32,7 +32,7 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   compress: true,
   experimental: {
-    optimizePackageImports: ["lucide-react"],
+    optimizePackageImports: ["lucide-react", "gsap", "lenis"],
   },
   images: {
     formats: ["image/avif", "image/webp"],
